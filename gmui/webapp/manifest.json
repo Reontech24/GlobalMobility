@@ -1,0 +1,114 @@
+{
+  "_version": "1.76.0",
+  "sap.app": {
+    "id": "com.exyte.gmui",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.18.5",
+      "toolsId": "269594cb-6a35-48c2-8fb1-49a93885fd70"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v2/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/mainService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.139.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "com.exyte.gmui.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {}
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "com.exyte.gmui.view",
+        "async": true,
+        "viewPath": "com.exyte.gmui.view"
+      },
+      "routes": [
+        {
+          "name": "RouteInitiation",
+          "pattern": ":?query:",
+          "target": [
+            "TargetInitiation"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetInitiation": {
+          "id": "Initiation",
+          "name": "Initiation"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "com.exyte.gmui.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  }
+}

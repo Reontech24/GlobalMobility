@@ -1,0 +1,19 @@
+{
+  "name": "gmlogic",
+  "version": "1.0.0",
+  "description": "Global Mobilty Logic",
+  "main": "server.js",
+  "scripts": {
+   "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC", 
+  "dependencies": {
+    "@sap-cloud-sdk/connectivity": "^4.1.1",
+    "@sap-cloud-sdk/http-client": "^4.1.1",
+    "@sap/xsenv": "^3.1.1",
+    "@sap/xssec": "^3.2.7",
+    "express": "^4.17.1",
+    "passport": "^0.7.0"
+  }
+}

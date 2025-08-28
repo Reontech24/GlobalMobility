@@ -1,0 +1,101 @@
+_schema-version: "3.2"
+ID: GlobalMobility
+version: 0.0.1
+modules:
+- name: globalmobility
+  type: approuter.nodejs
+  path: globalmobility-approuter
+  requires:
+  - name: GlobalMobility_html_repo_runtime
+  - name: uaa_GlobalMobility
+  - name: globalmobility-node-api
+    group: destinations
+    properties:
+      name: node-backend
+      url: ~{url}
+      forwardAuthToken: true
+  - name: GlobalMobility-destination-service
+    group: destinations
+    properties:
+      forwardAuthToken: false
+      name: ui5
+      url: https://ui5.sap.com
+  parameters:
+    disk-quota: 256M
+    memory: 256M
+- name: GlobalMobility_ui_deployer
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: GlobalMobility_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - comexytegmui.zip
+      name: comexytegmui
+      target-path: resources/
+- name: node-backend
+  type: nodejs
+  path: gmlogic
+  parameters:
+    disk-quota: 256M
+    memory: 256M
+  requires:
+    - name: GlobalMobility-destination-service  
+    - name: uaa_GlobalMobility       
+  provides:
+    - name: globalmobility-node-api
+      properties:
+        url: ${default-url}
+- name: comexytegmui
+  type: html5
+  path: gmui
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: GlobalMobility_html_repo_runtime
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-runtime
+- name: uaa_GlobalMobility
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: GlobalMobility-xsuaa-service
+    service-plan: application
+- name: GlobalMobility_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-host
+- name: GlobalMobility-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: false
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: GlobalMobility-destination-service
+    service-plan: lite
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
