@@ -1,0 +1,57 @@
+{
+    "VCAP_SERVICES": {
+        "xsuaa": [
+            {
+                "name": "GlobalMobility-xsuaa-service",
+                "label": "xsuaa",
+                "tags": [
+                    "xsuaa"
+                ],
+                "credentials": {
+                    "tenantmode": "dedicated",
+                    "sburl": "https://internal-xsuaa.authentication.eu10.hana.ondemand.com",
+                    "subaccountid": "58cb2fac-a07f-4556-8aca-cfc09282369b",
+                    "credential-type": "binding-secret",
+                    "clientid": "sb-globalmobility!t586561",
+                    "xsappname": "globalmobility!t586561",
+                    "clientsecret": "f2a3d2eb-7eb9-49a6-b140-9cc6b7d0a1bb$yvjctN_MPuzH7mL88RgEwHsLhL2h0sji4t9jhv-GFS0=",
+                    "serviceInstanceId": "120b7c38-4278-4eb4-b74f-e98e554c8deb",
+                    "url": "https://hr-dev-exyte.authentication.eu10.hana.ondemand.com",
+                    "uaadomain": "authentication.eu10.hana.ondemand.com",
+                    "verificationkey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnkUf9E7e8TIVoK5l16ED\n1nD5Booo6j96SOS09cnrsp3AcMIeZNUDHuPgk1d/nlAYIcMhiajThxOvnPGumU6j\nctEdPxP8rWqZ3g5m5tOdnpx11wgUlGxXTFXOeeaRHXhjkiu8oC7Y5G2nk3YuLB5K\nUwrYHK3mCDmPZRZh6Nt4wEwuXOCM99EoqeiVj/XQzVas8cTNRovbNtfeqIKg1cyW\nUDNAqoLk0+f6+jdxEKV9e/e8ffZzOKsoE+/KkY7dhAFtEnd3ecygQE0p+hZA9v8Y\nxOJRrpVBRfCGXEbMRcskWPRvcXsVAmnQbBO5X/rTzpyIb+fyMMUMufl582i0mDlY\nBQIDAQAB\n-----END PUBLIC KEY-----",
+                    "apiurl": "https://api.authentication.eu10.hana.ondemand.com",
+                    "identityzone": "hr-dev-exyte",
+                    "identityzoneid": "58cb2fac-a07f-4556-8aca-cfc09282369b",
+                    "tenantid": "58cb2fac-a07f-4556-8aca-cfc09282369b",
+                    "zoneid": "58cb2fac-a07f-4556-8aca-cfc09282369b"
+                }
+            }
+        ],
+        "destination": [
+            {
+                "name": "GlobalMobility-destination-service",
+                "label": "destination",
+                "tags": [
+                    "destination"
+                ],
+                "credentials": {
+                    "tenantmode": "dedicated",
+                    "token-type": [
+                        "xsuaa"
+                    ],
+                    "clientid": "sb-clone06a82b6bf31f49ebb58ab3686ac5bb6d!b586561|destination-xsappname!b404",
+                    "credential-type": "binding-secret",
+                    "xsappname": "clone06a82b6bf31f49ebb58ab3686ac5bb6d!b586561|destination-xsappname!b404",
+                    "clientsecret": "6d62d9f9-fc6a-4b36-92af-c830c3b2dbdf$jm7h73RCk3dMuKHTVDYfpgtI1vcCzLQIArXl1b66Kus=",
+                    "uri": "https://destination-configuration.cfapps.eu10.hana.ondemand.com",
+                    "url": "https://hr-dev-exyte.authentication.eu10.hana.ondemand.com",
+                    "uaadomain": "authentication.eu10.hana.ondemand.com",
+                    "instanceid": "06a82b6b-f31f-49eb-b58a-b3686ac5bb6d",
+                    "verificationkey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnkUf9E7e8TIVoK5l16ED\n1nD5Booo6j96SOS09cnrsp3AcMIeZNUDHuPgk1d/nlAYIcMhiajThxOvnPGumU6j\nctEdPxP8rWqZ3g5m5tOdnpx11wgUlGxXTFXOeeaRHXhjkiu8oC7Y5G2nk3YuLB5K\nUwrYHK3mCDmPZRZh6Nt4wEwuXOCM99EoqeiVj/XQzVas8cTNRovbNtfeqIKg1cyW\nUDNAqoLk0+f6+jdxEKV9e/e8ffZzOKsoE+/KkY7dhAFtEnd3ecygQE0p+hZA9v8Y\nxOJRrpVBRfCGXEbMRcskWPRvcXsVAmnQbBO5X/rTzpyIb+fyMMUMufl582i0mDlY\nBQIDAQAB\n-----END PUBLIC KEY-----",
+                    "identityzone": "hr-dev-exyte",
+                    "tenantid": "58cb2fac-a07f-4556-8aca-cfc09282369b"
+                }
+            }
+        ]
+    }
+}
