@@ -1,0 +1,16 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <VBox >
+        <OverflowToolbar height="5rem">
+            <Button icon="sap-icon://arrow-left" type="Transparent" press="onNavBack" class="customBackButton"/>
+            <VBox class="sapUiTinyMargin formHeaderTitleBox">
+                <Title text="Initiation Form" class="formTitle" />
+                <Label text="Updated by: Partha Updated on: 25/03/2025" />
+            </VBox>
+            <ToolbarSpacer />
+            <Button text="Cancel Initiation" icon="sap-icon://decline" class="exyteCustomButton cancelInitiationBtn" press="onCancel"></Button>
+            <Button text="Save as Draft" icon="sap-icon://save" class="exyteCustomButton saveDraftBtn"></Button>
+            <Button text="Submit" icon="sap-icon://accept" class="exyteCustomButton submitBtn"></Button>
+        </OverflowToolbar>
+    </VBox>
+</core:FragmentDefinition>

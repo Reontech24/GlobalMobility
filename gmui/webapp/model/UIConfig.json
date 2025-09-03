@@ -1,0 +1,58 @@
+{
+    "lanes": [
+        {
+            "id": "Initiation",
+            "icon": "sap-icon://initiative",
+            "label": "Initiation",
+            "position": 0,
+            "state": [
+                {
+                    "state": "Positive",
+                    "value": 100
+                }
+            ]
+        },
+        {
+            "id": "Factsheet",
+            "icon": "sap-icon://customer-financial-fact-sheet",
+            "label": "Factsheet",
+            "position": 1,
+            "state": [
+                {
+                    "state": "Critical",
+                    "value": 100
+                }
+            ]
+        },
+        {
+            "id": "Benefits",
+            "icon": "sap-icon://lead",
+            "label": "Benefits",
+            "position": 2
+        },
+        {
+            "id": "ContractSign",
+            "icon": "sap-icon://request",
+            "label": "Contract Sign",
+            "position": 3
+        },
+        {
+            "id": "GAProfile",
+            "icon": "sap-icon://person-placeholder",
+            "label": "GA Profile",
+            "position": 4
+        }
+    ],
+    "selectEmpInititaionFilter": [
+        "userId",
+        "country",
+        "custom04",
+        "custom06",
+        "custom10",
+        "department",
+        "displayName",
+        "hireDate",
+        "title",
+        "personKeyNav/personIdExternal"
+    ]
+}

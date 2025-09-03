@@ -44,7 +44,7 @@
     }
   },
   "sap.ui5": {
-    "flexEnabled": true,
+    "flexEnabled": false,
     "dependencies": {
       "minUI5Version": "1.139.0",
       "libs": {
@@ -67,6 +67,10 @@
         "dataSource": "mainService",
         "preload": true,
         "settings": {}
+      },
+      "UIModel": {
+        "uri": "model/UIConfig.json",
+        "type": "sap.ui.model.json.JSONModel"
       }
     },
     "resources": {
@@ -95,12 +99,23 @@
           "target": [
             "TargetInitiation"
           ]
+        },
+        {
+          "name": "RouteApproval",
+          "pattern": "approval",
+          "target": [
+            "TargetApproval"
+          ]
         }
       ],
       "targets": {
         "TargetInitiation": {
           "id": "Initiation",
           "name": "Initiation"
+        },
+         "TargetApproval": {
+          "id": "Approval",
+          "name": "Approval"
         }
       }
     },

@@ -1,0 +1,113 @@
+<mvc:View controllerName="com.exyte.gmui.controller.Approval"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:card="sap.f.cards"
+    xmlns:cust="com.exyte.gmui.controls">
+    <Page showHeader="false">
+        <content>
+            <VBox class="sapUiSmallMarginBegin sapUiTinyMarginTop sapUiSmallMarginEnd" width="98%">
+
+                <!-- Main Card -->
+                <VBox class="sapUiSmallMarginTop initiateMainCard">
+                    <!-- Emloyee Section -->
+                    <f:Card class="sapUiSmallMargin ApprovalEmpSection" height="6rem" width="98.5%">
+                        <f:content>
+                            <HBox class="sapUiSmallMargin">
+                                <VBox width="6%">
+                                    <Avatar initials="PC" src="{/Woman01}" displaySize="M" showBorder="true" press="onPress"/>
+                                </VBox>
+                                <VBox width="20%"  class="VBRightBorder" >
+                                   <Title text=" Alice Jhonson" class="sapUiTinyMarginTop inititaionFormTitle"/>
+                                   <Text text="Software ENgineer, 101212" class="initiationFormLabel"/>
+                                </VBox>
+                                 <VBox width="20%"  class="VBRightBorder sapUiMediumMarginBegin" >
+                                   <Label text="Department" class="sapUiTinyMarginTop initiationFormLabel"/>
+                                   <Text text="Software ENgineer, 101212" class="initiationFormLabel"/>
+                                </VBox>
+                                 <VBox width="20%"  class="VBRightBorder sapUiMediumMarginBegin" >
+                                   <Label text="Legal Entity" class="sapUiTinyMarginTop initiationFormLabel"/>
+                                   <Text text="Software ENgineer, 101212" class="initiationFormLabel"/>
+                                </VBox>
+                                 <VBox width="15%" class="VBRightBorder sapUiMediumMarginBegin" >
+                                   <Label text="Country" class="sapUiTinyMarginTop initiationFormLabel"/>
+                                   <Text text="Germany" class="initiationFormLabel"/>
+                                </VBox>
+                                 <VBox width="10%"  class="sapUiMediumMarginBegin" >
+                                   <Label text="Hire Date" class="sapUiTinyMarginTop initiationFormLabel"/>
+                                   <Text text="1994-10-12" class="initiationFormLabel"/>
+                                </VBox>
+                            </HBox>
+
+                        </f:content>
+                    </f:Card>
+                    <!-- Process Selection Section -->
+                    <f:Card class="sapUiSmallMarginBegin sapUiTinyMarginBottom" height="9rem" width="98.5%">
+                        <f:content>
+                            <VBox >
+                                <HBox class="sapUiSmallMargin" width="96%">
+                                    <Title text="Process Selection" class="inititaionFormTitle"/>
+                                    <ToolbarSpacer class="customTollbarSpacer" width="112rem"/>
+                                </HBox>
+
+                                <HBox class="sapUiSmallMargin" width="96%">
+                                    <VBox width="33rem">
+                                        <Label text="Process Type" required="true" class="initiationFormLabel"/>
+                                        <Text text="Managerial Assignment" class="initiationFormLabel"/>
+                                    </VBox>
+                                    <VBox width="33rem">
+                                        <Label text="Host Manager" class="initiationFormLabel"/>
+                                        <Text text="Thomas Spintzangel" class="initiationFormLabel"/>
+                                    </VBox>
+
+                                </HBox>
+
+                            </VBox>
+
+                        </f:content>
+                    </f:Card>
+                    <!-- Assignment Initiation Section -->
+                    <f:Card class="sapUiSmallMarginBegin sapUiTinyMarginBottom sapUiTinyMarginTop sapUiSmallMarginBottom" height="{= ${FormData>/cust_ProcessType} === 'P' ? '18rem' : '11rem'}" width="98.5%">
+                        <f:content>
+                            <VBox >
+                                <HBox class="sapUiSmallMargin" width="96%">
+                                    <Title text="Assignment Initiation" class="inititaionFormTitle"/>
+                                    <ToolbarSpacer class="customTollbarSpacer" width="112rem"/>
+                                </HBox>
+
+                                <HBox class="sapUiSmallMargin" width="96%">
+                                    <VBox width="33rem">
+                                        <Label text="Start Date" required="true" class="initiationFormLabel"/>
+                                        <Text text="{path:'FormData>/cust_StartDate','type':'sap.ui.model.type.Date','formatOptions': {'pattern': 'yyyy-MM-dd',UTC:true}}" class="initiationFormLabel" />
+                                    </VBox>
+                                    <VBox width="33rem">
+                                        <Label text="End Date" required="true" class="initiationFormLabel"/>
+                                        <Text text="{path:'FormData>/cust_EndDate','type':'sap.ui.model.type.Date','formatOptions': {'pattern': 'yyyy-MM-dd',UTC:true}}" class="initiationFormLabel" />
+                                    </VBox>
+                                    <VBox width="33rem">
+                                        <Label text="Host Position" required="true" class="initiationFormLabel"/>
+                                        <Text text="Thomas Spintzangel" class="initiationFormLabel"/>
+                                    </VBox>
+                                </HBox>
+                                <HBox class="sapUiSmallMargin" width="96%" visible="{= ${FormData>/cust_ProcessType} === 'P'}">
+                                    <VBox width="33rem">
+                                        <Label text="Project ID" required="true" class="initiationFormLabel"/>
+                                        <Text text="Thomas Spintzangel" class="initiationFormLabel"/>
+                                    </VBox>
+                                    <VBox width="33rem">
+                                        <Label text="Project Name" class="initiationFormLabel"/>
+                                        <Text text="Thomas Spintzangel" class="initiationFormLabel"/>
+                                    </VBox>
+
+                                </HBox>
+                            </VBox>
+
+                        </f:content>
+                    </f:Card>
+                </VBox>
+            </VBox>
+        </content>
+
+    </Page>
+</mvc:View>
