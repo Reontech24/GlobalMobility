@@ -2,6 +2,19 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug gmlogic",
+      "program": "${workspaceFolder}/gmlogic/server.js",
+      "runtimeArgs": [
+        "--inspect=9229"
+      ],
+      "cwd": "${workspaceFolder}/gmlogic",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
       "name": "Start gmui",
       "type": "node",
       "request": "launch",

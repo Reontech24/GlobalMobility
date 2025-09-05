@@ -1,6 +1,6 @@
 module.exports = {
   employeeListQuery: {
     $select: ["userId", "firstName", "lastName"].join(","),
-    $top: 5
+    $top: 100
   }
 };

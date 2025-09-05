@@ -1,0 +1,20 @@
+# Local development only
+default-env.json
+.env
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Node modules (will be re-installed on CF during staging)
+node_modules/
+
+# OS junk files
+.DS_Store
+Thumbs.db
+
+# BAS/IDE temp files
+.vscode/
+.idea/

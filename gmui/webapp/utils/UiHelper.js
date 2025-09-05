@@ -1,47 +1,43 @@
 sap.ui.define([
     "com/exyte/gmui/utils/ODataHelper",
-], function (ODataHelper) {
+    "com/exyte/gmui/utils/QueryHelper"
+], function (ODataHelper, QueryHelper) {
     "use strict";
 
     return {
-        _setEmployeeFilterData: async function (oEvent, aFilters, oDataModel, oUIModel) {
+        _setEmployeeFilterData: async function (oEvent, oDataModel, oUIModel, isFilterable) {
             const oComboBox = oEvent.getSource();
             try {
-                // Build OData parameters
-                const oParameters = {
-                    urlParameters: {
-                        "$select": oUIModel.getProperty("/selectEmpInititaionFilter").join(","),
-                        "$expand": "personKeyNav",
-                        "$orderby": "displayName"
-                    },
-                    filters: aFilters || []
-                };
-
-                // Fetch employee data
+                const oParameters = QueryHelper._getEmployeeParameter(oUIModel, isFilterable);
                 const oResponse = await ODataHelper.read(oDataModel, "/User", oParameters);
                 const aResults = oResponse?.results || [];
                 const aEmployees = aResults.filter(items => items.custom06 === "Employee");
-
-                // Update UI model
                 oUIModel.setProperty("/User", aEmployees);
-
-                // Bind items to combo box (bind only once ideally)
                 oComboBox.bindItems({
                     path: "UIModel>/User",
                     template: new sap.ui.core.ListItem({
                         key: "{UIModel>userId}",
-                        text: "{UIModel>displayName}",        
+                        text: "{UIModel>displayName}",
                         additionalText: "{UIModel>title}"
                     })
                 });
-
             } catch (error) {
-                // Optional: log or show error
                 console.log("Error while fetching employee data:", error);
             }
         },
-        _getPosition:function(oStartDate) {
-            
+        _getPosition: function (oStartDate, sLegatEntity, oDataModel) {
+            return new Promise(async function (resolve, reject) {
+                const oParameters = QueryHelper._getPositionParameter(oStartDate, sLegatEntity);
+                const oResponse = await ODataHelper.read(oDataModel, "/Position", oParameters);
+                resolve(oResponse.results)
+            });
+        },
+        _setLoggedUserDetails: function(oController, currentUserData) {
+            const sInitails = currentUserData.firstName.charAt(0).toUpperCase() + currentUserData.lastName.charAt(0).toUpperCase();
+            const LoggedUserName= currentUserData.firstName +" "+ currentUserData.lastName;
+            const oModel = oController.getOwnerComponent().getModel("UIModel");
+            oModel.setProperty("/InitialName",sInitails);
+            oModel.setProperty("/LoggedUserName",LoggedUserName);
         }
 
     }

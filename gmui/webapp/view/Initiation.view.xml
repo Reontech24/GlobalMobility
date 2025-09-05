@@ -106,13 +106,18 @@
                                     </VBox>
                                     <VBox width="33.3%">
                                         <Label text="Host Position" required="true" class="initiationFormLabel"/>
-                                        <ComboBox width="95%" class="exyteInput" selectedKey="{FormData>/cust_HostPosition}"></ComboBox>
+                                        <ComboBox width="95%" class="exyteInput" items="{UIModel>/Positions}" selectedKey="{FormData>/cust_HostPosition}">
+                                         <core:Item key="{UIModel>code}" text="{UIModel>externalName_en_US}"/>
+                                        </ComboBox>
                                     </VBox>
                                 </HBox>
                                 <HBox class="sapUiSmallMargin" width="96%" visible="{= ${FormData>/cust_ProcessType} === 'P'}">
                                     <VBox width="33.3%">
                                         <Label text="Project ID" required="true" class="initiationFormLabel"/>
-                                        <ComboBox width="95%" class="exyteInput" selectedKey="{FormData>/cust_Project}"></ComboBox>
+                                         <ComboBox showSecondaryValues="true" width="95%" class="exyteInput" items="{path: '/PickListValueV2', filters: [{ path: 'PickListV2_id', operator: 'EQ',  value1: 'GA_Projects'},{ path: 'status', operator: 'EQ', value1: 'A' }],
+                                        parameters: {select:'externalCode,label_en_US'}}" selectedKey="{FormData>/cust_Project}">
+                                            <core:ListItem key="{externalCode}" text="{path:'label_en_US'}" additionalText="{externalCode}"/>
+                                        </ComboBox>                                       
                                     </VBox>
                                     <VBox width="33.3%">
                                         <Label text="Project Name" class="initiationFormLabel"/>

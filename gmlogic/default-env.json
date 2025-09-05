@@ -1,4 +1,5 @@
 {
+    "LOCAL_DEV": "true",
     "VCAP_SERVICES": {
         "xsuaa": [
             {

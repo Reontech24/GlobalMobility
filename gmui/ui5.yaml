@@ -18,7 +18,7 @@ server:
         backend:
           - path: /odata
             url: https://api012.successfactors.eu
-            destination: SF_API
+            destination: SF_API_ADMIN
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:
@@ -30,3 +30,4 @@ server:
       configuration:
         flp:
           theme: sap_horizon
+

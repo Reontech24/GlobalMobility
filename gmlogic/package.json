@@ -4,16 +4,18 @@
   "description": "Global Mobilty Logic",
   "main": "server.js",
   "scripts": {
-   "start": "node server.js"
+    "start": "node server.js",
+    "debug": "node --inspect=9229 server.js"
   },
   "author": "",
-  "license": "ISC", 
+  "license": "ISC",
   "dependencies": {
     "@sap-cloud-sdk/connectivity": "^4.1.1",
     "@sap-cloud-sdk/http-client": "^4.1.1",
     "@sap/xsenv": "^3.1.1",
     "@sap/xssec": "^3.2.7",
     "express": "^4.17.1",
+    "nodemailer": "^7.0.6",
     "passport": "^0.7.0"
   }
 }

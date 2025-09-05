@@ -8,8 +8,8 @@
             <ToolbarSpacer/>
             <Title text="{i18n>title}" class="homeAppTitle"/>
             <ToolbarSpacer/>
-            <Avatar initials="PC" src="{/Woman01}" displaySize="S" showBorder="true" displayShape="Square" press="onPress"/>
-            <Title text="Partha Chatterjee" />
+            <Avatar initials="{UIModel>/InitialName}" displaySize="S" showBorder="true" displayShape="Square" press="onPress"/>
+            <Title text="{UIModel>/LoggedUserName}" />
         </OverflowToolbar>
         <VBox alignItems="Center" height="8rem">
             <com:ProcessFlow id="idProcessFlow" lanes="{UIModel>/lanes}">

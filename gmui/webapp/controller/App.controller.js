@@ -1,10 +1,14 @@
 sap.ui.define([
-  "com/exyte/gmui/controller/BaseController"
-], (BaseController) => {
+  "com/exyte/gmui/controller/BaseController",
+  "com/exyte/gmui/utils/UiHelper"
+], (BaseController,UiHelper) => {
   "use strict";
 
   return BaseController.extend("com.exyte.gmui.controller.App", {
-    onInit() {
+    onInit: async function() {
+       const currentUserResponse = await fetch("/node-api/currentUser", { credentials: "include" });
+       const currentUserData = await currentUserResponse.json();
+      UiHelper._setLoggedUserDetails(this,currentUserData);
     },
     onAfterRendering: function () {
       var oProcessFlow = this.byId("idProcessFlow");
