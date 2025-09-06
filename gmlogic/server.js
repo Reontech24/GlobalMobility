@@ -2,14 +2,14 @@ const express = require("express");
 const { initAuth } = require("./config/auth");
 
 const app = express();
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 8080;
 
 //Setup auth (JWT + XSUAA)
 initAuth(app);
 
 //Routes
-const employeeRoutes = require("./routes/employeeRoutes");
-app.use("/", employeeRoutes);
+const userRoutes = require("./routes/userRoutes");
+app.use("/", userRoutes);
 const mailRoutes = require("./routes/mailRoutes");
 app.use("/mail", mailRoutes);
 

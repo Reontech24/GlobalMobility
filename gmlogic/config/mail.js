@@ -2,8 +2,9 @@ const { getDestination } = require("@sap-cloud-sdk/connectivity");
 const nodemailer = require("nodemailer");
 const xsenv = require("@sap/xsenv");
 
-xsenv.loadEnv(); // loads default-env.json locally or VCAP on CF
+xsenv.loadEnv(); 
 
+// Function to Fetch Access Token From SF Interface Destination
 async function getAccessToken(dest) {
   const params = new URLSearchParams();
   params.set("grant_type", "password");
@@ -25,6 +26,7 @@ async function getAccessToken(dest) {
   return json.access_token;
 }
 
+// Function which will accept to,subject,body from mail router and send the mail
 async function sendMail({ to, subject, text, html }, jwt) {
   const dest = await getDestination({ destinationName: "SF_interface_mail", jwt });
   if (!dest) throw new Error("Destination SF_interface_mail not found");
@@ -35,14 +37,14 @@ async function sendMail({ to, subject, text, html }, jwt) {
   const transporter = nodemailer.createTransport({
     host: props.destinationConfiguration["mail.smtp.host"],
     port: parseInt(props.destinationConfiguration["mail.smtp.port"], 10) || 587,
-    secure: false, // STARTTLS
+    secure: false, 
     requireTLS: true,
     auth: {
       type: "OAuth2",
-      user: props.destinationConfiguration.User,        // mailbox user
+      user: props.destinationConfiguration.User,       
       accessToken: token
     },
-    authMethod: "XOAUTH2",
+    authMethod: props.destinationConfiguration["mail.smtp.auth.mechanisms"],
     tls: { rejectUnauthorized: false }
   });
 

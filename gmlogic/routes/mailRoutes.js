@@ -2,13 +2,11 @@ const express = require("express");
 const router = express.Router();
 const { sendMail } = require("../config/mail");
 
-
-
 router.get("/test-mail", async (req, res) => {
   try {
     const result = await sendMail({
       to: "om.pathak@exyte.net",
-      subject: "Test Email",
+      subject: "Mail from BTP",
       text: "Hello, this is a test!",
       html: "<b>Hello, this is a test!</b>"
     });

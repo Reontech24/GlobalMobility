@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { fetchEmployees } = require("../services/initiationService");
+const userService = require("../services/userService");
 
 
 // Employee list
 router.get("/getemplist", async (req, res) => {
   try {
-    const employees = await fetchEmployees(req);
+    const employees = await userService.fetchEmployees(req);
     res.json(employees);
   } catch (error) {
     console.error("Error fetching employees:", error.message);
@@ -20,11 +20,14 @@ router.get("/currentUser", async (req, res) => {
     if (!req.user) {
       return res.status(401).json({ error: "Unauthorized" });
     }
+    const loggedUserDetails = await userService.fetchLoggedUserPermission(req);
+    const onBehalf = loggedUserDetails.d.some(items => items.groupName.includes("800 - GA initiate by"));
     const user = {
       name: req.user.id || req.user.userName,
       email: req.user.emails?.[0]?.value || req.user.email,
       firstName: req.user.name?.givenName || req.user.givenName,
-      lastName: req.user.name?.familyName || req.user.familyName
+      lastName: req.user.name?.familyName || req.user.familyName,
+      onBehalf: onBehalf
     };
 
     res.json(user);

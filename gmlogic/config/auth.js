@@ -11,7 +11,7 @@ console.log("LOCAL =", LOCAL);
 
 function initAuth(app) {
   if (!LOCAL) {
-    // In CF → enable JWT auth
+    // Enable JWT auth
     const services = xsenv.getServices({ xsuaa: { tag: "xsuaa" } });
     passport.use(new JWTStrategy(services.xsuaa));
     app.use(passport.initialize());
@@ -22,11 +22,11 @@ function initAuth(app) {
     console.log("Running in LOCAL mode without JWT authentication");
     app.use((req, res, next) => {
       req.user = { 
-        id: "localUser", 
-        userName: "local.dev", 
-        givenName: "Local", 
-        familyName: "User", 
-        email: "local.dev@example.com" 
+        id: "sup_pom", 
+        userName: "sup_pom", 
+        givenName: "Om", 
+        familyName: "Pathak", 
+        email: "om.pathak@aktglobal.com" 
       };
       next();
     });
