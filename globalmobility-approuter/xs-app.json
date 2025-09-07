@@ -1,5 +1,5 @@
 {
-  "authenticationMethod": "route",
+  "authenticationMethod": "none",
   "routes": [
     {
       "source": "^/node-api/(.*)$",
@@ -11,25 +11,12 @@
       "source": "^/user-api/(.*)$",
       "target": "$1",
       "service": "sap-approuter-userapi"
-    },  
-    {
-      "source": "^/resources/(.*)$",
-      "target": "/resources/$1",
-      "authenticationType": "none",
-      "destination": "ui5"
-    },
-    {
-      "source": "^/test-resources/(.*)$",
-      "target": "/test-resources/$1",
-      "authenticationType": "none",
-      "destination": "ui5"
     },
     {
       "source": "^(.*)$",
-      "target": "$1",
-      "service": "html5-apps-repo-rt",
-      "authenticationType": "none"
+      "localDir": "../gmui/webapp"
     }
+    
   ],
-  "welcomeFile": "/comexytegmui/index.html"
+  "welcomeFile": "/indexdev.html"
 }
