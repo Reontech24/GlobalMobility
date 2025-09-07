@@ -7,10 +7,12 @@ const userService = require("../services/userService");
 router.get("/getemplist", async (req, res) => {
   try {
     const employees = await userService.fetchEmployees(req);
-    res.json(employees);
+    // Filter for permanent Employee
+    const permanentEmp = employees.filter(items => items.custom06 === "Employee"); 
+    res.json(permanentEmp);
   } catch (error) {
     console.error("Error fetching employees:", error.message);
-    res.status(500).send("Error fetching employees from SuccessFactors");
+    res.status(500).send(error.message);
   }
 });
 
@@ -33,7 +35,7 @@ router.get("/currentUser", async (req, res) => {
     res.json(user);
   } catch (error) {
     console.error("Error fetching current user:", error.message);
-    res.status(500).send("Error fetching current user");
+    res.status(500).send(error.message);
   }
 });
 

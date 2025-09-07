@@ -22,7 +22,9 @@
                                 <HBox class="sapUiSmallMargin" width="100%">
                                     <VBox width="33%">
                                         <Label text="Employee Name" required="true" class="initiationFormLabel"/>
-                                        <cust:extComboBox showSecondaryValues="true" id="initiateEmpName" width="95%" selectionChange="onSelectEmployee" class="exyteInput" arrowPress="empNameOpenComboBox" searchBackend="onSearchEmpCombobox" selectedKey="{FormData>/cust_HomeUserId}" />
+                                        <cust:extComboBox showSecondaryValues="true" width="95%" items="{UIModel>/User}" selectionChange="onSelectEmployee" class="exyteInput" searchBackend="onSearchEmpCombobox" selectedKey="{FormData>/cust_HomeUserId}">
+                                        <core:ListItem key="{UIModel>userId}" text="{UIModel>displayName}" additionalText="{UIModel>title}"/>
+                                        </cust:extComboBox>
                                     </VBox>
 
                                 </HBox>

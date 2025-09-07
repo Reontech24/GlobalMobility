@@ -17,8 +17,9 @@ server:
           url: https://ui5.sap.com
         backend:
           - path: /odata
-            url: https://api012.successfactors.eu
             destination: SF_API_ADMIN
+          - path: /node-api
+            url: http://localhost:9000
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:

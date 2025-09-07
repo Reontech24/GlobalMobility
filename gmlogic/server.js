@@ -2,7 +2,7 @@ const express = require("express");
 const { initAuth } = require("./config/auth");
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 9000;
 
 //Setup auth (JWT + XSUAA)
 initAuth(app);

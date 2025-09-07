@@ -5,26 +5,15 @@ sap.ui.define([
     "use strict";
 
     return {
-        _setEmployeeFilterData: async function (oEvent, oDataModel, oUIModel, isFilterable) {
-            const oComboBox = oEvent.getSource();
-            try {
-                const oParameters = QueryHelper._getEmployeeParameter(oUIModel, isFilterable);
-                const oResponse = await ODataHelper.read(oDataModel, "/User", oParameters);
-                const aResults = oResponse?.results || [];
-                const aEmployees = aResults.filter(items => items.custom06 === "Employee");
-                oUIModel.setProperty("/User", aEmployees);
-                oComboBox.bindItems({
-                    path: "UIModel>/User",
-                    template: new sap.ui.core.ListItem({
-                        key: "{UIModel>userId}",
-                        text: "{UIModel>displayName}",
-                        additionalText: "{UIModel>title}"
-                    })
-                });
-            } catch (error) {
-                console.log("Error while fetching employee data:", error);
+        _setEmployeeFilterData: async function (oUIModel, name) {
+            let sUri = "/node-api/getemplist"
+            if(name) {
+                sUri = "/node-api/getemplist?name="+name;
             }
-        },
+            fetch(sUri).then(res => res.json()).then( data =>
+                oUIModel.setProperty("/User", data))
+                .catch(err => console.error("Error fetching data:", err));        
+    },
         _getPosition: function (oStartDate, sLegatEntity, oDataModel) {
             return new Promise(async function (resolve, reject) {
                 const oParameters = QueryHelper._getPositionParameter(oStartDate, sLegatEntity);
@@ -32,14 +21,14 @@ sap.ui.define([
                 resolve(oResponse.results)
             });
         },
-        _setLoggedUserDetails: function(oController, currentUserData) {
-            const sInitails = currentUserData.firstName.charAt(0).toUpperCase() + currentUserData.lastName.charAt(0).toUpperCase();
-            const LoggedUserName= currentUserData.firstName +" "+ currentUserData.lastName;
-            const oModel = oController.getOwnerComponent().getModel("UIModel");
-            oModel.setProperty("/InitialName",sInitails);
-            oModel.setProperty("/LoggedUserName",LoggedUserName);
-        }
-
+    _setLoggedUserDetails: function(oController, currentUserData) {
+        const sInitails = currentUserData.firstName.charAt(0).toUpperCase() + currentUserData.lastName.charAt(0).toUpperCase();
+        const LoggedUserName = currentUserData.firstName + " " + currentUserData.lastName;
+        const oModel = oController.getOwnerComponent().getModel("UIModel");
+        oModel.setProperty("/InitialName", sInitails);
+        oModel.setProperty("/LoggedUserName", LoggedUserName);
     }
+
+}
 
 });

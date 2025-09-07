@@ -13,8 +13,8 @@ sap.ui.define([
 
             this.getRouter().getRoute("RouteInitiation").attachPatternMatched(this._onRouteMatched, this);
         },
-        _onRouteMatched: async function () {           
-            this.byId("initiateEmpName").fireArrowPress();
+        _onRouteMatched: async function () {
+            UiHelper._setEmployeeFilterData(this._uiConfigModel);          
             this._createFormModel();
 
         },
@@ -37,24 +37,7 @@ sap.ui.define([
             const oModel = new JSONModel(object);
             this.setModel(oModel, "FormData");
         },
-        /**
-         * Function Triggered on Click Combobox Arrow Icon & On Initialize
-         * set the Comobobox Model
-         */
-        empNameOpenComboBox: async function (oEvent) {
-            try {
-                if (!this._uiConfigModel.getProperty("/User") || this._uiConfigModel.getProperty("/User").length === 0) {
-                    await UiHelper._setEmployeeFilterData(
-                        oEvent,
-                        this._oDataModel,
-                        this._uiConfigModel,
-                        false
-                    );
-                }
-            } finally {
 
-            }
-        },
         /**
          * Filter the Employee Data Based on User Input
          * Returns Filter Data in Combobox 
@@ -65,14 +48,7 @@ sap.ui.define([
                 if (sValue.includes("-")) {
                     return;
                 }
-                // Fetch filtered data
-                await UiHelper._setEmployeeFilterData(
-                    oEvent,
-                    this._oDataModel,
-                    this._uiConfigModel,
-                    sValue
-                );
-
+                 UiHelper._setEmployeeFilterData(this._uiConfigModel,sValue); 
             } finally {
                 const oComboBox = oEvent.getSource();
                 // Get results length from model
