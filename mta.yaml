@@ -11,6 +11,9 @@ modules:
       host: globalmobility-approuter   # fixed hostname
       memory: 256M
       disk-quota: 256M
+    build-parameters:
+      ignore:
+        - default-env.json
     requires:
       - name: GlobalMobility_html_repo_runtime
       - name: uaa_GlobalMobility
