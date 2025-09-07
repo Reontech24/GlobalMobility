@@ -94,28 +94,49 @@
       },
       "routes": [
         {
-          "name": "RouteInitiation",
-          "pattern": ":?query:",
+          "name": "Initiation",
+          "pattern": "Initiate",
           "target": [
-            "TargetInitiation"
+            "Initiation"
           ]
         },
         {
-          "name": "RouteApproval",
+          "name": "Approval",
           "pattern": "approval",
           "target": [
-            "TargetApproval"
+            "Approval"
+          ]
+        },
+         {
+          "name": "Unauthorized",
+          "pattern": "Unauthorized",
+          "target": [
+            "Unauthorized"
           ]
         }
       ],
       "targets": {
-        "TargetInitiation": {
+        "Initiation": {
           "id": "Initiation",
-          "name": "Initiation"
+          "name": "Initiation",
+          "options": {
+            "requiredRoles": [
+              "Manager","InitiateBy"
+            ]
+          }
         },
-         "TargetApproval": {
+        "Approval": {
           "id": "Approval",
-          "name": "Approval"
+          "name": "Approval",
+          "options": {
+            "requiredRoles": [
+              "Manager","HostManager"
+            ]
+          }
+        },
+        "Unauthorized": {
+          "id": "Unauthorized",
+          "name": "Unauthorized"
         }
       }
     },

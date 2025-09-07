@@ -22,8 +22,8 @@
                                 <HBox class="sapUiSmallMargin" width="100%">
                                     <VBox width="33%">
                                         <Label text="Employee Name" required="true" class="initiationFormLabel"/>
-                                        <cust:extComboBox showSecondaryValues="true" width="95%" items="{UIModel>/User}" selectionChange="onSelectEmployee" class="exyteInput" searchBackend="onSearchEmpCombobox" selectedKey="{FormData>/cust_HomeUserId}">
-                                        <core:ListItem key="{UIModel>userId}" text="{UIModel>displayName}" additionalText="{UIModel>title}"/>
+                                        <cust:extComboBox showSecondaryValues="true" width="95%" items="{UIModel>/user}" selectionChange="onSelectEmployee" class="exyteInput" searchBackend="onSearchEmpCombobox" selectedKey="{FormData>/cust_HomeUserId}">
+                                            <core:ListItem key="{UIModel>userId}" text="{UIModel>displayName}" additionalText="{UIModel>title}"/>
                                         </cust:extComboBox>
                                     </VBox>
 
@@ -79,7 +79,9 @@
                                     </VBox>
                                     <VBox width="33.3%">
                                         <Label text="Host Manager" class="initiationFormLabel"/>
-                                        <Input value="{FormData>/cust_EmpId}" width="95%" class="exyteInput" editable="true"></Input>
+                                       <cust:extComboBox showSecondaryValues="true" width="95%" items="{UIModel>/hostManager}"  class="exyteInput" searchBackend="onSearchHostManagerCombobox" selectedKey="{FormData>/cust_HostManager}" enabled="{UIModel>/onBehalf}">
+                                            <core:ListItem key="{UIModel>userId}" text="{UIModel>displayName}" additionalText="{UIModel>title}"/>
+                                        </cust:extComboBox>
                                     </VBox>
 
                                 </HBox>
@@ -109,17 +111,17 @@
                                     <VBox width="33.3%">
                                         <Label text="Host Position" required="true" class="initiationFormLabel"/>
                                         <ComboBox width="95%" class="exyteInput" items="{UIModel>/Positions}" selectedKey="{FormData>/cust_HostPosition}">
-                                         <core:Item key="{UIModel>code}" text="{UIModel>externalName_en_US}"/>
+                                            <core:Item key="{UIModel>code}" text="{UIModel>externalName_en_US}"/>
                                         </ComboBox>
                                     </VBox>
                                 </HBox>
                                 <HBox class="sapUiSmallMargin" width="96%" visible="{= ${FormData>/cust_ProcessType} === 'P'}">
                                     <VBox width="33.3%">
                                         <Label text="Project ID" required="true" class="initiationFormLabel"/>
-                                         <ComboBox showSecondaryValues="true" width="95%" class="exyteInput" items="{path: '/PickListValueV2', filters: [{ path: 'PickListV2_id', operator: 'EQ',  value1: 'GA_Projects'},{ path: 'status', operator: 'EQ', value1: 'A' }],
+                                        <ComboBox showSecondaryValues="true" width="95%" class="exyteInput" items="{path: '/PickListValueV2', filters: [{ path: 'PickListV2_id', operator: 'EQ',  value1: 'GA_Projects'},{ path: 'status', operator: 'EQ', value1: 'A' }],
                                         parameters: {select:'externalCode,label_en_US'}}" selectedKey="{FormData>/cust_Project}">
                                             <core:ListItem key="{externalCode}" text="{path:'label_en_US'}" additionalText="{externalCode}"/>
-                                        </ComboBox>                                       
+                                        </ComboBox>
                                     </VBox>
                                     <VBox width="33.3%">
                                         <Label text="Project Name" class="initiationFormLabel"/>

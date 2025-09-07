@@ -54,5 +54,6 @@
         "hireDate",
         "title",
         "personKeyNav/personIdExternal"
-    ]
+    ],
+    "isForm":false
 }

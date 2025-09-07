@@ -8,8 +8,20 @@ router.get("/getemplist", async (req, res) => {
   try {
     const employees = await userService.fetchEmployees(req);
     // Filter for permanent Employee
-    const permanentEmp = employees.filter(items => items.custom06 === "Employee"); 
+    const permanentEmp = employees.filter(items => items.custom06 === "Employee" && items.custom10 === 'Active'); 
     res.json(permanentEmp);
+  } catch (error) {
+    console.error("Error fetching employees:", error.message);
+    res.status(500).send(error.message);
+  }
+});
+// Host Manager list
+router.get("/gethostmanager", async (req, res) => {
+  try {
+    const employees = await userService.fetchHostManagers(req);
+    // Filter for permanent Employee
+    // const hostManager = employees.filter(items => items.custom06 === "Employee" && items.custom10 === 'Active'); 
+    res.json(employees);
   } catch (error) {
     console.error("Error fetching employees:", error.message);
     res.status(500).send(error.message);

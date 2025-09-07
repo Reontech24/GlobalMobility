@@ -2,23 +2,23 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:com="sap.suite.ui.commons"  xmlns:core="sap.ui.core">
-    <VBox fitContainer="true">
-        <OverflowToolbar height="4rem">
+    <VBox fitContainer="true" >
+        <OverflowToolbar height="4rem" >
             <ImageContent src="images/exyte-logo.svg" description="Exyte" class="ExyteLogo" />
             <ToolbarSpacer/>
             <Title text="{i18n>title}" class="homeAppTitle"/>
             <ToolbarSpacer/>
-            <Avatar initials="{UIModel>/InitialName}" displaySize="S" showBorder="true" displayShape="Square" press="onPress"/>
-            <Title text="{UIModel>/LoggedUserName}" />
+            <Avatar initials="{UIModel>/initialName}" displaySize="S" showBorder="true" displayShape="Square" press="onPress"/>
+            <Title text="{UIModel>/loggedUserName}" />
         </OverflowToolbar>
-        <VBox alignItems="Center" height="8rem">
+        <VBox alignItems="Center" height="8rem" visible="{UIModel>/isForm}">
             <com:ProcessFlow id="idProcessFlow" lanes="{UIModel>/lanes}">
                 <com:lanes>
                     <com:ProcessFlowLaneHeader zoomLevel="Four" laneId="{UIModel>id}" iconSrc="{UIModel>icon}" text="{UIModel>label}" position="{UIModel>position}" state="{UIModel>state}" press="onLanePress"/>
                 </com:lanes>
             </com:ProcessFlow>
         </VBox>
-        <VBox class="sapUiSmallMarginTop sapUiSmallMarginBegin sapUiSmallMarginEnd" width="98%">
+        <VBox class="sapUiSmallMarginTop sapUiSmallMarginBegin sapUiSmallMarginEnd" width="98%" visible="{UIModel>/isForm}">
             <core:Fragment fragmentName="com.exyte.gmui.fragment.formHeader" type="XML"/>
         </VBox>
         <App id="app" />

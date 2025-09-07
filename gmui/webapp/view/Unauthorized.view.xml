@@ -1,0 +1,15 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    controllerName="com.exyte.gmui.controller.Unauthorized">
+    <Page title="Unauthorized" showHeader="false">
+        <content>
+            <MessagePage
+        title="Unauthorized"
+        text="You are not authorized to access this page."
+        description="Please contact your administrator."
+        showHeader="false"
+        icon="sap-icon://locked"/>
+        </content>
+    </Page>
+</mvc:View>

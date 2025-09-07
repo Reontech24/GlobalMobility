@@ -9,7 +9,7 @@ sap.ui.define([
 
     return BaseController.extend("com.exyte.gmui.controller.Approval", {
         onInit: function () {
-            this.getRouter().getRoute("RouteApproval").attachPatternMatched(this._onRouteMatched, this);
+            this.getRouter().getRoute("Approval").attachPatternMatched(this._onRouteMatched, this);
         },
         _onRouteMatched: function () {
 

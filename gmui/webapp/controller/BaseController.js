@@ -28,6 +28,12 @@ sap.ui.define([
 		},
 		setViewProperty:function(oModel,sProperty,sValue) {
 			return this.getView().getModel(oModel).setProperty("/"+sProperty,sValue);
+		},
+		getGlobalProperty:function(oModel,sProperty) {
+			return this.getView().getModel(oModel).getProperty("/"+sProperty);
+		},
+		setGlobalProperty:function(oModel,sProperty,sValue) {
+			return this.getView().getModel(oModel).setProperty("/"+sProperty,sValue);
 		}
     });
 });
