@@ -1,17 +1,20 @@
 const { callDestination } = require("./httpClient");
 const { EmployeeName } = require("../queries/initiationQuery");
 
-async function fetchEmployees(req, limit = 100) {
-  const { name } = req.query;
-  let params = { ...EmployeeName, $top: limit };
-   if (name) {
-     const filter= `substringof('${name}',displayName)`;
-     params.$filter = encodeURI(filter);
-  }
+async function upsertInitiation(req) {
+  const payload = req.body; 
+
   return callDestination(req, "SF_API", {
-    url: "/odata/v2/User",
-    params
+    url: "/odata/v2/upsert",
+    method: "POST",
+    data: {
+      __metadata: { uri: "User" }, // target entity
+      userId: payload.userId,
+      firstName: payload.firstName,
+      lastName: payload.lastName,
+      status: payload.status || "active"
+    }
   });
 }
 
-module.exports = { fetchEmployees };
+module.exports = { upsertInitiation };

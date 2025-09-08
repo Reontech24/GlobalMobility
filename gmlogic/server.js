@@ -12,6 +12,8 @@ const userRoutes = require("./routes/userRoutes");
 app.use("/", userRoutes);
 const mailRoutes = require("./routes/mailRoutes");
 app.use("/mail", mailRoutes);
+const initiateRoutes = require("./routes/initiationRoutes");
+app.use("/initiate", initiateRoutes);
 
 
 //Start server

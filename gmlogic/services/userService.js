@@ -8,7 +8,7 @@ async function fetchEmployees(req) {
     const filter = `substringof('${name}',displayName)`;
     params.$filter = encodeURI(filter);
   }  
-  return callDestination(req, "SF_API_ADMIN", {
+  return callDestination(req, "SF_API", {
     url: "/odata/v2/User",
     params: params
   });
@@ -25,7 +25,7 @@ async function fetchHostManagers(req) {
     const filter = `substringof('${name}',displayName)`;
     params.$filter = encodeURI(filter);
   }  
-  return callDestination(req, "SF_API_ADMIN", {
+  return callDestination(req, "SF_API", {
     url: "/odata/v2/User",
     params: params
   });
@@ -41,4 +41,5 @@ async function fetchLoggedUserPermission(req) {
   });
 }
 
-module.exports = { fetchEmployees, fetchLoggedUserPermission, fetchHostManagers };
+
+module.exports = { fetchEmployees, fetchLoggedUserPermission, fetchHostManagers, upsertInitiation };
