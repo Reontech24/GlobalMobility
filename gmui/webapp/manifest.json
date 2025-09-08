@@ -95,7 +95,7 @@
       "routes": [
         {
           "name": "Initiation",
-          "pattern": "Initiate",
+          "pattern": ":?query:",
           "target": [
             "Initiation"
           ]
@@ -107,7 +107,7 @@
             "Approval"
           ]
         },
-         {
+        {
           "name": "Unauthorized",
           "pattern": "Unauthorized",
           "target": [
@@ -121,7 +121,8 @@
           "name": "Initiation",
           "options": {
             "requiredRoles": [
-              "Manager","InitiateBy"
+              "Manager",
+              "InitiateBy"
             ]
           }
         },
@@ -130,7 +131,8 @@
           "name": "Approval",
           "options": {
             "requiredRoles": [
-              "Manager","HostManager"
+              "Manager",
+              "HostManager"
             ]
           }
         },

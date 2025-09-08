@@ -18,7 +18,7 @@ sap.ui.define([
             const currentUserData = await currentUserResponse.json();
             UiHelper._setLoggedUserDetails(this, currentUserData);
             UiHelper._setEmpData(this._uiConfigModel);
-            UiHelper._setManagerData(this._uiConfigModel);
+            await UiHelper._setManagerData(this._uiConfigModel);
             this._createFormModel();
 
         },

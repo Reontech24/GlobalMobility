@@ -8,7 +8,7 @@ async function fetchEmployees(req) {
     const filter = `substringof('${name}',displayName)`;
     params.$filter = encodeURI(filter);
   }  
-  return callDestination(req, "SF_API", {
+  return callDestination(req, "SF_API_ADMIN", {
     url: "/odata/v2/User",
     params: params
   });
