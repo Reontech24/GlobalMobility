@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userService = require("../services/userService");
+const genericService = require("../services/genericService");
 
 
 // Employee list
@@ -22,6 +23,17 @@ router.get("/gethostmanager", async (req, res) => {
     // Filter for permanent Employee
     // const hostManager = employees.filter(items => items.custom06 === "Employee" && items.custom10 === 'Active'); 
     res.json(employees);
+  } catch (error) {
+    console.error("Error fetching employees:", error.message);
+    res.status(500).send(error.message);
+  }
+});
+
+// Picklist Value
+router.get("/getpicklist", async (req, res) => {
+  try {
+    const picklistVal = await genericService.fetchPickList(req);
+    res.json(picklistVal);
   } catch (error) {
     console.error("Error fetching employees:", error.message);
     res.status(500).send(error.message);

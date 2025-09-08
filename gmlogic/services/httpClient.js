@@ -17,7 +17,7 @@ async function callDestination(req, destinationName, options) {
     headers: options.headers || {}
   });
 
-  return response.data?.d?.results || response.data?.value || response.data;
+  return response.data?.d?.results || response.data?.value || response.data || data?.d;
 }
 
 module.exports = { callDestination };

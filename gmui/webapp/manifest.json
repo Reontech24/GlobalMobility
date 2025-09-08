@@ -102,7 +102,7 @@
         },
         {
           "name": "Approval",
-          "pattern": "approval",
+          "pattern": "approval/{processId}",
           "target": [
             "Approval"
           ]

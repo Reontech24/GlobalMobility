@@ -53,7 +53,7 @@
                                     </VBox>
                                     <VBox width="33.3%">
                                         <Label text="Hire Date" class="initiationFormLabel"/>
-                                        <Input value="{path: 'UIModel>/initiateForm/cust_HireDate','type':'sap.ui.model.type.Date','formatOptions': {'pattern': 'yyyy-MM-dd',UTC:true}}" width="95%" class="exyteInput" editable="false"></Input>
+                                        <Input value="{path: 'UIModel>/initiateForm/cust_HireDate',formatter:'.formatter.formatDate'}" width="95%" class="exyteInput" editable="false"></Input>
                                     </VBox>
                                 </HBox>
                             </VBox>
@@ -72,14 +72,13 @@
                                 <HBox class="sapUiSmallMargin" width="100%">
                                     <VBox width="33.3%">
                                         <Label text="Process Type" required="true" class="initiationFormLabel"/>
-                                        <ComboBox showSecondaryValues="true" width="95%" class="exyteInput" items="{path: '/PickListValueV2', filters: [{ path: 'PickListV2_id', operator: 'EQ',  value1: 'GA_Type'},{ path: 'status', operator: 'EQ', value1: 'A' }],
-                                        parameters: {select:'externalCode,label_en_US'}}" selectedKey="{UIModel>/initiateForm/cust_ProcessType}">
-                                            <core:ListItem key="{externalCode}" text="{path:'label_en_US'}" additionalText="{externalCode}"/>
+                                        <ComboBox showSecondaryValues="true" width="95%" class="exyteInput" items="{path: 'processType>/'}" selectedKey="{UIModel>/initiateForm/cust_ProcessType}">
+                                            <core:Item key="{processType>externalCode}" text="{processType>label_en_US}" />
                                         </ComboBox>
                                     </VBox>
                                     <VBox width="33.3%">
                                         <Label text="Host Manager" class="initiationFormLabel"/>
-                                       <cust:extComboBox showSecondaryValues="true" width="95%" items="{UIModel>/hostManager}"  class="exyteInput" searchBackend="onSearchHostManagerCombobox" selectedKey="{UIModel>/initiateForm/cust_HostManager}" enabled="{UIModel>/onBehalf}">
+                                       <cust:extComboBox showSecondaryValues="true" width="95%" items="{UIModel>/hostManager}"  class="exyteInput" selectionChange="onSelectHostManager" searchBackend="onSearchHostManagerCombobox" selectedKey="{UIModel>/initiateForm/cust_HostManager}" enabled="{UIModel>/onBehalf}">
                                             <core:ListItem key="{UIModel>userId}" text="{UIModel>displayName}" additionalText="{UIModel>title}"/>
                                         </cust:extComboBox>
                                     </VBox>
@@ -110,8 +109,8 @@
                                     </VBox>
                                     <VBox width="33.3%">
                                         <Label text="Host Position" required="true" class="initiationFormLabel"/>
-                                        <ComboBox width="95%" class="exyteInput" items="{UIModel>/Positions}" selectedKey="{UIModel>/initiateForm/cust_HostPosition}">
-                                            <core:Item key="{UIModel>code}" text="{UIModel>externalName_en_US}"/>
+                                        <ComboBox width="95%" class="exyteInput" items="{Position>/}" selectedKey="{UIModel>/initiateForm/cust_HostPosition}" selectionChange="onSelectPosition">
+                                            <core:Item key="{Position>code}" text="{Position>externalName_en_US}"/>
                                         </ComboBox>
                                     </VBox>
                                 </HBox>

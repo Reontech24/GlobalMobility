@@ -1,5 +1,7 @@
 const { callDestination } = require("./httpClient");
 const EmpQuery = require("../queries/employeeQueries");
+const DEST = require("../config/destination");
+
 
 async function fetchEmployees(req) {
   const name  = req.query.name;  
@@ -8,7 +10,7 @@ async function fetchEmployees(req) {
     const filter = `substringof('${name}',displayName)`;
     params.$filter = encodeURI(filter);
   }  
-  return callDestination(req, "SF_API", {
+  return callDestination(req, DEST.SF_API, {
     url: "/odata/v2/User",
     params: params
   });
@@ -25,14 +27,14 @@ async function fetchHostManagers(req) {
     const filter = `substringof('${name}',displayName)`;
     params.$filter = encodeURI(filter);
   }  
-  return callDestination(req, "SF_API", {
+  return callDestination(req, DEST.SF_API, {
     url: "/odata/v2/User",
     params: params
   });
 }
 
 async function fetchLoggedUserPermission(req) {
-  return callDestination(req, "SF_API_ADMIN", {
+  return callDestination(req, DEST.SF_API_ADMIN, {
     url: "/odata/v2/getDynamicGroupsByUser",
     params: {
       userId: req.user.id,
@@ -42,4 +44,4 @@ async function fetchLoggedUserPermission(req) {
 }
 
 
-module.exports = { fetchEmployees, fetchLoggedUserPermission, fetchHostManagers, upsertInitiation };
+module.exports = { fetchEmployees, fetchLoggedUserPermission, fetchHostManagers};

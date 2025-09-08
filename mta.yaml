@@ -14,6 +14,7 @@ modules:
     build-parameters:
       ignore:
         - default-env.json
+        - xs-appdev.json
     requires:
       - name: GlobalMobility_html_repo_runtime
       - name: uaa_GlobalMobility

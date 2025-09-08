@@ -1,7 +1,8 @@
 sap.ui.define([
     "com/exyte/gmui/utils/ODataHelper",
-    "com/exyte/gmui/utils/QueryHelper"
-], function (ODataHelper, QueryHelper) {
+    "com/exyte/gmui/utils/QueryHelper",
+    "sap/ui/model/json/JSONModel"
+], function (ODataHelper, QueryHelper, JSONModel) {
     "use strict";
 
     return {
@@ -36,17 +37,20 @@ sap.ui.define([
                 }
 
                 const data = await res.json();
+
                 oUIModel.setProperty("/hostManager", data);
             } catch (err) {
                 console.error("Error fetching employees:", err);
             }
         },
-        _getPosition: function (oStartDate, sLegatEntity, oDataModel) {
-            return new Promise(async function (resolve, reject) {
-                const oParameters = QueryHelper._getPositionParameter(oStartDate, sLegatEntity);
-                const oResponse = await ODataHelper.read(oDataModel, "/Position", oParameters);
-                resolve(oResponse.results)
-            });
+        _getPosition: function (oStartDate, sLegatEntity, oController) {
+            if (sLegatEntity) {
+                const sUri = `/node-api/initiate/getposition?entity=${encodeURIComponent(sLegatEntity)}&startDate=${encodeURIComponent(oStartDate)}`;
+                const oModel = new JSONModel();
+                oModel.loadData(sUri);
+                oController.getView().setModel(oModel, "Position");
+            }
+
         },
         _setLoggedUserDetails: function (oController, currentUserData) {
             const sInitails = currentUserData.firstName.charAt(0).toUpperCase() + currentUserData.lastName.charAt(0).toUpperCase();
@@ -55,6 +59,11 @@ sap.ui.define([
             oController.setGlobalProperty("UIModel", "loggedUserName", LoggedUserName);
             oController.setGlobalProperty("UIModel", "userId", currentUserData.name);
             oController.setGlobalProperty("UIModel", "onBehalf", currentUserData.onBehalf);
+        },
+        _setPickListUI: function (oController) {
+            const oModel = new JSONModel();
+            oModel.loadData("/node-api/getpicklist?name=GA_Type");
+            oController.getView().setModel(oModel, "processType");
         }
 
     }

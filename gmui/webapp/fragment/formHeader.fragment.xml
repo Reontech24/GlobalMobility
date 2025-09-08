@@ -10,7 +10,7 @@
             <ToolbarSpacer />
             <Button text="Cancel Initiation" icon="sap-icon://decline" class="exyteCustomButton cancelInitiationBtn" press="onCancel"></Button>
             <Button text="Save as Draft" press="onPressDraft" icon="sap-icon://save" class="exyteCustomButton saveDraftBtn"></Button>
-            <Button text="Submit" icon="sap-icon://accept" class="exyteCustomButton submitBtn"></Button>
+            <Button text="Submit" icon="sap-icon://accept" press="onPressSubmit" class="exyteCustomButton submitBtn"></Button>
         </OverflowToolbar>
     </VBox>
 </core:FragmentDefinition>

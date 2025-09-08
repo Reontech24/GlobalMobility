@@ -27,7 +27,7 @@ sap.ui.define([
             }
         },
         _getPositionParameter: function (oStartDate, sLegatEntity) {
-            const sEnitiyId = sLegatEntity.match(/\(([^)]+)\)/g).map(m => m.slice(1, -1));
+            
             const aFilters = [
                 new Filter("vacant", FilterOperator.EQ, true),
                 new Filter("effectiveStatus", FilterOperator.EQ, "A"),
