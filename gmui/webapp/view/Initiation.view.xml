@@ -23,7 +23,7 @@
                                     <VBox width="33%">
                                         <Label text="Employee Name" required="true" class="initiationFormLabel"/>
                                         <cust:extComboBox showSecondaryValues="true" width="95%" items="{UIModel>/user}" selectionChange="onSelectEmployee" class="exyteInput" searchBackend="onSearchEmpCombobox" selectedKey="{UIModel>/initiateForm/cust_HomeUserId}">
-                                            <core:ListItem key="{UIModel>userId}" text="{UIModel>displayName}" additionalText="{UIModel>title}"/>
+                                            <core:ListItem key="{UIModel>userId}" text="{UIModel>userNav/displayName}" additionalText="{UIModel>jobTitle}"/>
                                         </cust:extComboBox>
                                     </VBox>
 
@@ -79,7 +79,7 @@
                                     <VBox width="33.3%">
                                         <Label text="Host Manager" class="initiationFormLabel"/>
                                        <cust:extComboBox showSecondaryValues="true" width="95%" items="{UIModel>/hostManager}"  class="exyteInput" selectionChange="onSelectHostManager" searchBackend="onSearchHostManagerCombobox" selectedKey="{UIModel>/initiateForm/cust_HostManager}" enabled="{UIModel>/onBehalf}">
-                                            <core:ListItem key="{UIModel>userId}" text="{UIModel>displayName}" additionalText="{UIModel>title}"/>
+                                            <core:Item key="{UIModel>userId}" text="{UIModel>userNav/displayName}"/>
                                         </cust:extComboBox>
                                     </VBox>
 
@@ -116,15 +116,14 @@
                                 </HBox>
                                 <HBox class="sapUiSmallMargin" width="96%" visible="{= ${UIModel>/initiateForm/cust_ProcessType} === 'P'}">
                                     <VBox width="33.3%">
-                                        <Label text="Project ID" required="true" class="initiationFormLabel"/>
-                                        <ComboBox showSecondaryValues="true" width="95%" class="exyteInput" items="{path: '/PickListValueV2', filters: [{ path: 'PickListV2_id', operator: 'EQ',  value1: 'GA_Projects'},{ path: 'status', operator: 'EQ', value1: 'A' }],
-                                        parameters: {select:'externalCode,label_en_US'}}" selectedKey="{UIModel>/initiateForm/cust_Project}">
-                                            <core:ListItem key="{externalCode}" text="{path:'label_en_US'}" additionalText="{externalCode}"/>
+                                        <Label text="Project Name" required="true" class="initiationFormLabel"/>
+                                        <ComboBox width="95%" class="exyteInput" items="{ProjectData>/}" selectedKey="{UIModel>/initiateForm/cust_Project}">
+                                            <core:Item key="{ProjectData>externalCode}" text="{ProjectData>externalName}"/>
                                         </ComboBox>
                                     </VBox>
                                     <VBox width="33.3%">
-                                        <Label text="Project Name" class="initiationFormLabel"/>
-                                        <Input value="{UIModel>/initiateForm/cust_EmpId}" width="95%" class="exyteInput" editable="false"></Input>
+                                        <Label text="Project ID" class="initiationFormLabel"/>
+                                        <Input value="{UIModel>/initiateForm/cust_Project}" width="95%" class="exyteInput" editable="false"></Input>
                                     </VBox>
 
                                 </HBox>

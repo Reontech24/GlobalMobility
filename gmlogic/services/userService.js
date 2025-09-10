@@ -6,12 +6,15 @@ const DEST = require("../config/destination");
 async function fetchEmployees(req) {
   const name  = req.query.name;  
   let params = EmpQuery.employeeNameQuery;
+  const filters=[];
+  filters.push(`emplStatusNav/picklistLabels/label eq 'Active'`);
+  filters.push(`employeeClassNav/picklistLabels/label eq 'Employee'`)
   if (name) {
-    const filter = `substringof('${name}',displayName)`;
-    params.$filter = encodeURI(filter);
+    filters.push(`substringof('${name}',userNav/displayName)`);   
   }  
-  return callDestination(req, DEST.SF_API, {
-    url: "/odata/v2/User",
+   params.$filter = encodeURIComponent(filters.join(" and "));
+  return callDestination(req, DEST.SF_API_ADMIN, {
+    url: "/odata/v2/EmpJob",
     params: params
   });
 }
@@ -19,29 +22,32 @@ async function fetchEmployees(req) {
 async function fetchHostManagers(req) {
   const name  = req.query.manager;  
   let params = EmpQuery.hostManagerQuery;
-  if(!name) {
-     const filter = `userId eq '${req.user.id}'`;
-     params.$filter = encodeURI(filter);
-  }
+  const filters = [];
+  filters.push(`userNav/displayName ne null`);
+    filters.push(`customString10Nav/picklistLabels/label eq 'Yes'`);
+  // if(!name) {
+  //    const filter = `userId eq '${req.user.id}'`;
+  //    params.$filter = encodeURIComponent(filter);
+  // }
   if (name) {
-    const filter = `substringof('${name}',displayName)`;
-    params.$filter = encodeURI(filter);
+    filters.push(`substringof('${name}',userNav/displayName)`);    
   }  
-  return callDestination(req, DEST.SF_API, {
-    url: "/odata/v2/User",
+  params.$filter = encodeURIComponent(filters.join(" and "));
+  return callDestination(req, DEST.SF_API_ADMIN, {
+    url: "/odata/v2/EmpJob",
     params: params
   });
 }
 
-async function fetchLoggedUserPermission(req) {
+async function fetchLoggedUserPermission(req,userName) {
   return callDestination(req, DEST.SF_API_ADMIN, {
     url: "/odata/v2/getDynamicGroupsByUser",
     params: {
-      userId: req.user.id,
+      userId: `'${userName}'`,
       groupSubType: "permission"
     }
   });
 }
 
 
-module.exports = { fetchEmployees, fetchLoggedUserPermission, fetchHostManagers};
+module.exports = { fetchEmployees, fetchHostManagers, fetchLoggedUserPermission, };

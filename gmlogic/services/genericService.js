@@ -9,7 +9,7 @@ async function fetchPickList(req) {
      const filter = `status eq 'A' and PickListV2_id eq '${name}'`;
      params.$filter = encodeURI(filter);
   }
-  return callDestination(req, DEST.SF_API, {
+  return callDestination(req, DEST.SF_API_ADMIN, {
     url: "/odata/v2/PickListValueV2",
     params: params
   });
@@ -41,8 +41,8 @@ async function getMailId(req, userId) {
     $select: "email"
   }
   const filter = `userId eq '${userId}'`;
-  params.$filter = encodeURI(filter);
-  return callDestination(req, DEST.SF_API, {
+  params.$filter = encodeURIComponent(filter);
+  return callDestination(req, DEST.SF_API_ADMIN, {
     url: "/odata/v2/User",
     params: params
   });
@@ -52,8 +52,8 @@ async function getMailBody(req, notificationType) {
     $select: "cust_NotificationSubject_en_US,cust_NotificationBody_en_US"
   }
   const filter = `cust_NotificationType eq '${notificationType}'`;
-  params.$filter = encodeURI(filter);
-  return callDestination(req, DEST.SF_API, {
+  params.$filter = encodeURIComponent(filter);
+  return callDestination(req, DEST.SF_API_ADMIN, {
     url: "/odata/v2/cust_GA_Notifications?",
     params: params
   });

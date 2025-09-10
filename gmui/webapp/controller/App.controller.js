@@ -27,7 +27,7 @@ var sResponsivePaddingClasses = "sapUiResponsivePadding--header sapUiResponsiveP
         contentType: "application/json",
         data: JSON.stringify(oFormData),
         success: function (data) {
-          sap.m.MessageToast.show("Upsert Success!");
+          sap.m.MessageToast.show("Application saved as draft successfully");
         },
         error: function (err) {
           sap.m.MessageToast.show("Error: " + err.responseText);

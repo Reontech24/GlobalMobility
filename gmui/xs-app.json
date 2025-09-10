@@ -2,17 +2,12 @@
   "welcomeFile": "/index.html",
   "authenticationMethod": "route",
   "routes": [
-     {
+    {
       "source": "^/node-api/(.*)$",
       "destination": "node-backend",
-      "target": "/$1"
-    },
-    {
-      "source": "^/odata/(.*)$",
-      "target": "/odata/$1",
-      "destination": "SF_API",
+      "target": "/$1",
       "authenticationType": "xsuaa",
-      "csrfProtection": false
+      "csrfProtection":false
     },
     {
       "source": "^/resources/(.*)$",

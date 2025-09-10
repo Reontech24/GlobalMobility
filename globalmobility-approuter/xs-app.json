@@ -5,7 +5,8 @@
       "source": "^/node-api/(.*)$",
       "destination": "node-backend",
       "target": "/$1",
-      "authenticationType": "xsuaa"
+      "authenticationType": "xsuaa",
+      "csrfProtection":false
     },
     {
       "source": "^/user-api/(.*)$",

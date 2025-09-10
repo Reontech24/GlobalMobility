@@ -32,6 +32,17 @@ router.get("/getposition", async (req, res) => {
   }
 });
 
+router.get("/getproject", async (req, res) => {
+  try {
+    const projectVal = await initiateService.fetchProject(req);
+    res.json(projectVal);
+  } catch (error) {
+    console.error("Error fetching project:", error.message);
+    res.status(500).send(error.message);
+  }
+});
+
+
 
 
 module.exports = router;

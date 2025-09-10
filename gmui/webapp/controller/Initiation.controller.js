@@ -9,13 +9,14 @@ sap.ui.define([
 
     return BaseController.extend("com.exyte.gmui.controller.Initiation", {
         formatter: formatter,
-        onInit: async function () {
-            this._oDataModel = this.getOwnerComponent().getModel();
+        onInit: async function () {            
             this._uiConfigModel = this.getOwnerComponent().getModel("UIModel");
             this.getRouter().getRoute("Initiation").attachPatternMatched(this._onRouteMatched, this);
         },
         _onRouteMatched: async function () {
-            this.getModel("UIModel").setProperty("/isForm", true);
+            this._uiConfigModel.setProperty("/formStatus", "ID");
+            this._uiConfigModel.setProperty("/isForm", true);
+            this._uiConfigModel.setProperty("/formTitle", "Inititation Form");
             const currentUserResponse = await fetch("/node-api/currentUser", { credentials: "include" });
             const currentUserData = await currentUserResponse.json();
             UiHelper._setLoggedUserDetails(this, currentUserData);
@@ -26,12 +27,9 @@ sap.ui.define([
 
         },
         _createFormModel: function () {
-            const sLegatEntity = this.getGlobalProperty("UIModel", "hostManager/0/custom04");
-             let sEnitiyId=""
-            if(sLegatEntity) {
-            sEnitiyId = sLegatEntity.match(/\(([^)]+)\)/g).map(m => m.slice(1, -1));
-            }
+            
             const object = {
+                cust_StartMinDate: new Date(),
                 cust_ProcessType: "",
                 cust_HostManager: this.getGlobalProperty("UIModel", "userId",),
                 cust_EmpId: "",
@@ -41,8 +39,7 @@ sap.ui.define([
                 cust_HostPosition: "",
                 cust_Project: null,
                 cust_Status: "",
-                cust_HostLegalEntity: sLegatEntity,
-                cust_HostLegalEntityId: sEnitiyId[0]
+                cust_HostLegalEntity:""
             };
             this.setGlobalProperty("UIModel", "initiateForm", object);
         },
@@ -93,13 +90,13 @@ sap.ui.define([
          */
         onSelectEmployee: function (oEvent) {
             const oSelectedObject = oEvent.getParameter("selectedItem").getBindingContext("UIModel").getObject();
-            this.setGlobalProperty("UIModel", "initiateForm/cust_HomeCountry", oSelectedObject.country);
-            this.setGlobalProperty("UIModel", "initiateForm/cust_EmpId", oSelectedObject.personKeyNav.personIdExternal);
-            this.setGlobalProperty("UIModel", "initiateForm/cust_HireDate", oSelectedObject.hireDate);
-            this.setGlobalProperty("UIModel", "initiateForm/cust_Title", oSelectedObject.title);
-            this.setGlobalProperty("UIModel", "initiateForm/cust_Department", oSelectedObject.department);
-            this.setGlobalProperty("UIModel", "initiateForm/cust_LegalEntity", oSelectedObject.custom04);
-             this.setGlobalProperty("UIModel", "initiateForm/cust_EmpName", oSelectedObject.displayName);
+            this.setGlobalProperty("UIModel", "initiateForm/cust_HomeCountry", oSelectedObject.userNav.country);
+            this.setGlobalProperty("UIModel", "initiateForm/cust_EmpId", oSelectedObject.employmentNav.personIdExternal);
+            this.setGlobalProperty("UIModel", "initiateForm/cust_HireDate", oSelectedObject.employmentNav.startDate);
+            this.setGlobalProperty("UIModel", "initiateForm/cust_Title", oSelectedObject.jobTitle);
+            this.setGlobalProperty("UIModel", "initiateForm/cust_Department", oSelectedObject.departmentNav.name);
+            this.setGlobalProperty("UIModel", "initiateForm/cust_LegalEntity", oSelectedObject.company);
+             this.setGlobalProperty("UIModel", "initiateForm/cust_EmpName", oSelectedObject.userNav.displayName);
             if(oSelectedObject.custom04) {
                 const sEnitiyId = oSelectedObject["custom04"].match(/\(([^)]+)\)/g).map(m => m.slice(1, -1));
                 this.setGlobalProperty("UIModel", "initiateForm/cust_LegalEntityId", sEnitiyId[0]);
@@ -114,27 +111,33 @@ sap.ui.define([
             let selectedDate = oEvent.getSource().getDateValue();
             if (selectedDate) {
                 BusyIndicator.show(0);
+                //Set Minimum Date of End Date
                 let oMinEndDate = new Date(selectedDate);
-                oMinEndDate.setDate(oMinEndDate.getDate() + 1);
+                oMinEndDate.setDate(oMinEndDate.getDate() + 1); 
                 this.setGlobalProperty("UIModel", "initiateForm/cust_EndMindate", oMinEndDate);
+                //Clear the End Date and position
                 this.setGlobalProperty("UIModel", "initiateForm/cust_EndDate", null);
                 this.setGlobalProperty("UIModel", "initiateForm/cust_HostPosition", "");
-                await UiHelper._getPosition(selectedDate, this.getGlobalProperty("UIModel", "initiateForm/cust_HostLegalEntityId"), this);
+                // Get the Posotion based on Start Date Selected
+                await UiHelper._getPosition(selectedDate, this.getGlobalProperty("UIModel", "initiateForm/cust_HostLegalEntity"), this);
+                // Process Type is Project get the Project data
+                if(this._uiConfigModel.getProperty("/initiateForm/cust_ProcessType") === "P") {
+                    await UiHelper._getProjectData(selectedDate, this);
+                }
                 BusyIndicator.hide();
             }
         },
         onSelectHostManager: function (oEvent) {
             if (oEvent.getParameter("selectedItem") === null) {
-                UiHelper._setManagerData(this._uiConfigModel, "A");
+                UiHelper._setManagerData(this._uiConfigModel, "");
                 return;
             }
             const oSelectedObject = oEvent.getParameter("selectedItem").getBindingContext("UIModel").getObject();
             this.setGlobalProperty("UIModel", "initiateForm/cust_HostPosition", "");
-            if(oSelectedObject.custom04) {
-                const sEnitiyId = oSelectedObject["custom04"].match(/\(([^)]+)\)/g).map(m => m.slice(1, -1));
-                this.setGlobalProperty("UIModel", "initiateForm/cust_HostLegalEntityId", sEnitiyId[0]);
+            if(oSelectedObject.company) {
+                this.setGlobalProperty("UIModel", "initiateForm/cust_HostLegalEntity", oSelectedObject.company);
             }
-            this.setGlobalProperty("UIModel", "initiateForm/cust_HostLegalEntity", oSelectedObject.custom04);
+            // this.setGlobalProperty("UIModel", "initiateForm/cust_HostLegalEntity", oSelectedObject.custom04);
         },
         onSelectPosition: function (oEvent) {
             const oSelectedObject = oEvent.getParameter("selectedItem").getBindingContext("Position").getObject();

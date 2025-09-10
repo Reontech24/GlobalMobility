@@ -73,9 +73,24 @@ async function fetchPosition(req) {
     $orderby: "externalName_en_US",
     $expand: "companyNav"
   }
-  params.$filter = encodeURI(filterQuery);
-  return callDestination(req, DEST.SF_API, {
+  params.$filter = encodeURIComponent(filterQuery);
+  return callDestination(req, DEST.SF_API_ADMIN, {
     url: "/odata/v2/Position",
+    params: params
+  });
+}
+async function fetchProject(req) {
+  const startDate = req.query.startDate;
+  let params = {
+    $select: [
+      "externalCode",
+      "externalName"
+    ].join(","),
+    $orderby: "externalName"
+  }
+  params.$filter = encodeURIComponent(`cust_startDate le ${genericService.formatDate(startDate)}`);
+  return callDestination(req, DEST.SF_API_ADMIN, {
+    url: "/odata/v2/cust_GA_Projects",
     params: params
   });
 }
@@ -85,8 +100,8 @@ async function getHomeManager(req, homeUserId) {
     $select: "company,managerId"
   }
   const filter = `userId eq '${homeUserId}'`;
-  params.$filter = encodeURI(filter);
-  return callDestination(req, DEST.SF_API, {
+  params.$filter = encodeURIComponent(filter);
+  return callDestination(req, DEST.SF_API_ADMIN, {
     url: "/odata/v2/EmpJob",
     params: params
   });
@@ -98,7 +113,7 @@ async function getHomeHRBP(req, homeUserId) {
   }
   const filter = `userId eq '${homeUserId}' and relationshipTypeNav/externalCode eq 'hr manager'`;
   params.$filter = encodeURI(filter);
-  return callDestination(req, DEST.SF_API, {
+  return callDestination(req, DEST.SF_API_ADMIN, {
     url: "/odata/v2/EmpJobRelationships",
     params: params
   });
@@ -111,7 +126,7 @@ async function getGAGroups(req, cust_LegalEntity, cust_HostLegalEntity) {
   const typeFilter = `(cust_GroupType eq 'GM' or cust_GroupType eq 'HR_OPS')`
   const filter = `${legalFilter} and ${typeFilter}`;
   params.$filter = encodeURIComponent(filter);
-  return callDestination(req, DEST.SF_API, {
+  return callDestination(req, DEST.SF_API_ADMIN, {
     url: "/odata/v2/cust_GA_Groups",
     params: params
   });
@@ -145,4 +160,4 @@ async function sendNotification(req, res) {
   }
 }
 
-module.exports = { draftInitiation, submitInitiation, fetchPosition, sendNotification };
+module.exports = { draftInitiation, submitInitiation, fetchPosition, fetchProject, sendNotification };

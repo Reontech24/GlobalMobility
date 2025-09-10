@@ -1,16 +1,15 @@
 sap.ui.define([
     "com/exyte/gmui/utils/ODataHelper",
-    "com/exyte/gmui/utils/QueryHelper",
     "sap/ui/model/json/JSONModel"
-], function (ODataHelper, QueryHelper, JSONModel) {
+], function (ODataHelper, JSONModel) {
     "use strict";
 
     return {
         _setEmpData: async function (oUIModel, name) {
             try {
                 let sUri = "/node-api/getemplist";
-                if (name) {
-                    sUri += "?name=" + encodeURIComponent(name);
+                if (name !== undefined) {
+                    sUri += `?name=${name}`;
                 }
 
                 const res = await fetch(sUri);
@@ -28,7 +27,7 @@ sap.ui.define([
             try {
                 let sUri = "/node-api/gethostmanager";
                 if (name) {
-                    sUri += "?manager=" + encodeURIComponent(name);
+                    sUri += `?manager=${name}`;
                 }
 
                 const res = await fetch(sUri);
@@ -45,12 +44,24 @@ sap.ui.define([
         },
         _getPosition: function (oStartDate, sLegatEntity, oController) {
             if (sLegatEntity) {
-                const sUri = `/node-api/initiate/getposition?entity=${encodeURIComponent(sLegatEntity)}&startDate=${encodeURIComponent(oStartDate)}`;
-                const oModel = new JSONModel();
+                const sUri = `/node-api/initiate/getposition?entity=${sLegatEntity}&startDate=${oStartDate}`;
+                let oModel = oController.getView().getModel("Position");
+                if (!oModel) {
+                    oModel = new JSONModel();
+                    oController.getView().setModel(oModel, "Position");
+                }
                 oModel.loadData(sUri);
-                oController.getView().setModel(oModel, "Position");
             }
 
+        },
+        _getProjectData: function(oStartDate,oController) {
+            const sUri = `/node-api/initiate/getproject?startDate=${oStartDate}`;
+                let oModel = oController.getView().getModel("ProjectData");
+                if (!oModel) {
+                    oModel = new JSONModel();
+                    oController.getView().setModel(oModel, "ProjectData");
+                }
+                oModel.loadData(sUri);
         },
         _setLoggedUserDetails: function (oController, currentUserData) {
             const sInitails = currentUserData.firstName.charAt(0).toUpperCase() + currentUserData.lastName.charAt(0).toUpperCase();

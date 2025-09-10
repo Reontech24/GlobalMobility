@@ -1,30 +1,27 @@
 module.exports = { 
   employeeNameQuery: {
     $select: [
+      "company",
+      "userNav/country",
+      "departmentNav/name",
+      "employmentNav/personIdExternal",
+      "employmentNav/startDate",
+      "jobTitle",
       "userId",
-      "country",
-      "custom04",
-      "custom06",
-      "custom10",
-      "department",
-      "displayName",
-      "hireDate",
-      "title",
-      "personKeyNav/personIdExternal"
+     "userNav/displayName"
     ].join(","),
-    $expand: "personKeyNav",
-    $orderby: "displayName",
-    $top: 100
+    $expand: "departmentNav,employmentNav,userNav",
+    $orderby: "userNav/displayName",
+    $top: 50
   },
   hostManagerQuery: {
     $select: [
-      "userId",     
-      "custom04",
-      "custom06",
-      "custom10",     
-      "displayName",
+     "company",
+     "userId",
+     "userNav/displayName"
     ].join(","),
-    $orderby: "displayName",
-    $top: 100
+    $orderby: "userNav/displayName",
+    $expand:"userNav",
+    $top: 1000
   }
 };
