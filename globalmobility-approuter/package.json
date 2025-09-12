@@ -12,8 +12,6 @@
 	},
 	"scripts": {
 		"start": "node node_modules/@sap/approuter/approuter.js",
-		"start-local": "node node_modules/@sap/approuter/approuter.js --config xs-app-local.json",
-		"prestart:local": "cp xs-app-local.json xs-app.json",
-		"start:local": "node node_modules/@sap/approuter/approuter.js"
+		"start-local": "node node_modules/@sap/approuter/approuter.js --config xs-app-local.json"
 	}
 }

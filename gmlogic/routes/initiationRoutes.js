@@ -16,7 +16,7 @@ router.post("/submitInitiation", async (req, res) => {
     const result = await initiateService.submitInitiation(req);
     const externalCode = result.d[0].key.match(/externalCode=(\d+)/);
     if(externalCode[0] !== null){
-    await initiateService.sendNotification(req,externalCode[0]);
+    await initiateService.sendNotification(req,externalCode[1]);
     }
     res.status(200).json(result);
   } catch (error) {

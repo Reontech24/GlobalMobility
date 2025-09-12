@@ -1,22 +1,36 @@
 {
-  "authenticationMethod": "none",
+  "authenticationMethod": "route",
   "routes": [
     {
       "source": "^/node-api/(.*)$",
       "destination": "node-backend",
       "target": "/$1",
-      "authenticationType": "xsuaa"
+      "authenticationType": "xsuaa",
+      "csrfProtection":false
     },
     {
       "source": "^/user-api/(.*)$",
       "target": "$1",
       "service": "sap-approuter-userapi"
+    },  
+    {
+      "source": "^/resources/(.*)$",
+      "target": "/resources/$1",
+      "authenticationType": "none",
+      "destination": "ui5"
+    },
+    {
+      "source": "^/test-resources/(.*)$",
+      "target": "/test-resources/$1",
+      "authenticationType": "none",
+      "destination": "ui5"
     },
     {
       "source": "^(.*)$",
-      "localDir": "../gmui/webapp"
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "none"
     }
-    
   ],
-  "welcomeFile": "/indexdev.html"
+  "welcomeFile": "/comexytegmui/index.html"
 }
