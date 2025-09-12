@@ -5,7 +5,10 @@
     xmlns:f="sap.f"
     xmlns:card="sap.f.cards"
     xmlns:cust="com.exyte.gmui.controls">
-    <Page showHeader="false">
+    <Page class="formClass">
+        <customHeader>
+            <core:Fragment fragmentName="com.exyte.gmui.fragment.formHeader" type="XML"/>
+        </customHeader>
         <content>
             <VBox class="sapUiSmallMargin" width="98.7%">
 
@@ -22,8 +25,8 @@
                                 <HBox class="sapUiSmallMargin" width="100%">
                                     <VBox width="33%">
                                         <Label text="Employee Name" required="true" class="initiationFormLabel"/>
-                                        <cust:extComboBox showSecondaryValues="true" width="95%" items="{UIModel>/user}" selectionChange="onSelectEmployee" class="exyteInput" searchBackend="onSearchEmpCombobox" selectedKey="{UIModel>/initiateForm/cust_HomeUserId}">
-                                            <core:ListItem key="{UIModel>userId}" text="{UIModel>userNav/displayName}" additionalText="{UIModel>jobTitle}"/>
+                                        <cust:extComboBox showSecondaryValues="true" width="95%" items="{/Initiation/Employee}" selectionChange="onSelectEmployee" class="exyteInput" searchBackend="onSearchEmpCombobox" selectedKey="{/initiateForm/cust_HomeUserId}">
+                                            <core:ListItem key="{userId}" text="{userNav/displayName}" additionalText="{jobTitle}"/>
                                         </cust:extComboBox>
                                     </VBox>
 
@@ -31,29 +34,29 @@
                                 <HBox class="sapUiSmallMargin" width="100%">
                                     <VBox width="33.3%">
                                         <Label text="Person ID" class="initiationFormLabel"/>
-                                        <Input value="{UIModel>/initiateForm/cust_EmpId}" width="95%" class="exyteInput" editable="false"></Input>
+                                        <Input value="{/initiateForm/cust_EmpId}" width="95%" class="exyteInput" editable="false"></Input>
                                     </VBox>
                                     <VBox width="33.3%">
                                         <Label text="Job Title" class="initiationFormLabel"/>
-                                        <Input value="{UIModel>/initiateForm/cust_Title}" width="95%" class="exyteInput" editable="false"></Input>
+                                        <Input value="{/initiateForm/cust_Title}" width="95%" class="exyteInput" editable="false"></Input>
                                     </VBox>
                                     <VBox width="33.3%">
                                         <Label text="Department" class="initiationFormLabel"/>
-                                        <Input value="{UIModel>/initiateForm/cust_Department}" width="95%" class="exyteInput" editable="false"></Input>
+                                        <Input value="{/initiateForm/cust_Department}" width="95%" class="exyteInput" editable="false"></Input>
                                     </VBox>
                                 </HBox>
                                 <HBox class="sapUiSmallMargin" width="100%">
                                     <VBox width="33.3%">
                                         <Label text="Legal Entity" class="initiationFormLabel"/>
-                                        <Input value="{UIModel>/initiateForm/cust_LegalEntity}" width="95%" class="exyteInput" editable="false"></Input>
+                                        <Input value="{/initiateForm/cust_LegalEntityName}" width="95%" class="exyteInput" editable="false"></Input>
                                     </VBox>
                                     <VBox width="33.3%">
                                         <Label text="Country" class="initiationFormLabel"/>
-                                        <Input value="{UIModel>/initiateForm/cust_HomeCountry}" width="95%" class="exyteInput" editable="false"></Input>
+                                        <Input value="{/initiateForm/cust_HomeCountry}" width="95%" class="exyteInput" editable="false"></Input>
                                     </VBox>
                                     <VBox width="33.3%">
                                         <Label text="Hire Date" class="initiationFormLabel"/>
-                                        <Input value="{path: 'UIModel>/initiateForm/cust_HireDate',formatter:'.formatter.formatDate'}" width="95%" class="exyteInput" editable="false"></Input>
+                                        <Input value="{path: '/initiateForm/cust_HireDate',formatter:'.formatter.formatDate'}" width="95%" class="exyteInput" editable="false"></Input>
                                     </VBox>
                                 </HBox>
                             </VBox>
@@ -72,14 +75,14 @@
                                 <HBox class="sapUiSmallMargin" width="100%">
                                     <VBox width="33.3%">
                                         <Label text="Process Type" required="true" class="initiationFormLabel"/>
-                                        <ComboBox showSecondaryValues="true" width="95%" class="exyteInput" items="{path: 'processType>/'}" selectedKey="{UIModel>/initiateForm/cust_ProcessType}">
-                                            <core:Item key="{processType>externalCode}" text="{processType>label_en_US}" />
+                                        <ComboBox showSecondaryValues="true" width="95%" class="exyteInput" items="{path: '/Initiation/ProcessType'}" selectedKey="{/initiateForm/cust_ProcessType}">
+                                            <core:Item key="{externalCode}" text="{label_en_US}" />
                                         </ComboBox>
                                     </VBox>
                                     <VBox width="33.3%">
                                         <Label text="Host Manager" class="initiationFormLabel"/>
-                                       <cust:extComboBox showSecondaryValues="true" width="95%" items="{UIModel>/hostManager}"  class="exyteInput" selectionChange="onSelectHostManager" searchBackend="onSearchHostManagerCombobox" selectedKey="{UIModel>/initiateForm/cust_HostManager}" enabled="{UIModel>/onBehalf}">
-                                            <core:Item key="{UIModel>userId}" text="{UIModel>userNav/displayName}"/>
+                                        <cust:extComboBox showSecondaryValues="true" width="95%" items="{/Initiation/HostManager}" class="exyteInput" selectionChange="onSelectHostManager" searchBackend="onSearchHostManagerCombobox" selectedKey="{/initiateForm/cust_HostManager}" enabled="{/onBehalf}">
+                                            <core:Item key="{userId}" text="{userNav/displayName}"/>
                                         </cust:extComboBox>
                                     </VBox>
 
@@ -90,7 +93,7 @@
                         </f:content>
                     </f:Card>
                     <!-- Assignment Initiation Section -->
-                    <f:Card class="sapUiSmallMargin" height="{= ${UIModel>/initiateForm/cust_ProcessType} === 'P' ? '18rem' : '11rem'}" width="97.7%">
+                    <f:Card class="sapUiSmallMargin" height="{= ${/initiateForm/cust_ProcessType} === 'P' ? '18rem' : '11rem'}" width="97.7%">
                         <f:content>
                             <VBox width="100%">
                                 <HBox class="sapUiSmallMargin" width="100%">
@@ -101,29 +104,29 @@
                                 <HBox class="sapUiSmallMargin" width="100%">
                                     <VBox width="33.3%">
                                         <Label text="Start Date" required="true" class="initiationFormLabel"/>
-                                        <DatePicker value="{path:'UIModel>/initiateForm/cust_StartDate','type':'sap.ui.model.type.Date','formatOptions': {'pattern': 'yyyy-MM-dd',UTC:true}}" width="95%" class="exyteInput" minDate="{UIModel>/initiateForm/cust_StartMinDate}" change="onChangeStartDate"></DatePicker>
+                                        <DatePicker value="{path:'/initiateForm/cust_StartDate','type':'sap.ui.model.type.Date','formatOptions': {'pattern': 'yyyy-MM-dd',UTC:true}}" width="95%" class="exyteInput" minDate="{/initiateForm/cust_StartMinDate}" change="onChangeStartDate"></DatePicker>
                                     </VBox>
                                     <VBox width="33.3%">
                                         <Label text="End Date" required="true" class="initiationFormLabel"/>
-                                        <DatePicker value="{path:'UIModel>/initiateForm/cust_EndDate','type':'sap.ui.model.type.Date','formatOptions': {'pattern': 'yyyy-MM-dd',UTC:true}}" width="95%" class="exyteInput" minDate="{UIModel>/initiateForm/cust_EndMindate}"></DatePicker>
+                                        <DatePicker value="{path:'/initiateForm/cust_EndDate','type':'sap.ui.model.type.Date','formatOptions': {'pattern': 'yyyy-MM-dd',UTC:true}}" width="95%" class="exyteInput" minDate="{/initiateForm/cust_EndMindate}"></DatePicker>
                                     </VBox>
                                     <VBox width="33.3%">
                                         <Label text="Host Position" required="true" class="initiationFormLabel"/>
-                                        <ComboBox width="95%" class="exyteInput" items="{Position>/}" selectedKey="{UIModel>/initiateForm/cust_HostPosition}" selectionChange="onSelectPosition">
-                                            <core:Item key="{Position>code}" text="{Position>externalName_en_US}"/>
+                                        <ComboBox width="95%" class="exyteInput" items="{/Initiation/Position}" selectedKey="{/initiateForm/cust_HostPosition}" selectionChange="onSelectPosition">
+                                            <core:Item key="{code}" text="{externalName_en_US}"/>
                                         </ComboBox>
                                     </VBox>
                                 </HBox>
-                                <HBox class="sapUiSmallMargin" width="96%" visible="{= ${UIModel>/initiateForm/cust_ProcessType} === 'P'}">
+                                <HBox class="sapUiSmallMargin" width="96%" visible="{= ${/initiateForm/cust_ProcessType} === 'P'}">
                                     <VBox width="33.3%">
                                         <Label text="Project Name" required="true" class="initiationFormLabel"/>
-                                        <ComboBox width="95%" class="exyteInput" items="{ProjectData>/}" selectedKey="{UIModel>/initiateForm/cust_Project}">
-                                            <core:Item key="{ProjectData>externalCode}" text="{ProjectData>externalName}"/>
+                                        <ComboBox width="95%" class="exyteInput" items="{/Initiation/ProjectData}" selectedKey="{/initiateForm/cust_Project}">
+                                            <core:Item key="{externalCode}" text="{externalName}"/>
                                         </ComboBox>
                                     </VBox>
                                     <VBox width="33.3%">
                                         <Label text="Project ID" class="initiationFormLabel"/>
-                                        <Input value="{UIModel>/initiateForm/cust_Project}" width="95%" class="exyteInput" editable="false"></Input>
+                                        <Input value="{/initiateForm/cust_Project}" width="95%" class="exyteInput" editable="false"></Input>
                                     </VBox>
 
                                 </HBox>

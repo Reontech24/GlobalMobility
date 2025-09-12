@@ -8,15 +8,13 @@ sap.ui.define([
     "use strict";
 
     return BaseController.extend("com.exyte.gmui.controller.Approval", {
-        onInit: function () {
-            this._oDataModel = this.getOwnerComponent().getModel();
-            this._uiConfigModel = this.getOwnerComponent().getModel("UIModel");
+        onInit: function () {           
             this.getRouter().getRoute("Approval").attachPatternMatched(this._onRouteMatched, this);
         },
         _onRouteMatched: function (oEvent) {
-            this._uiConfigModel.setProperty("/formStatus", "PI");
-            this._uiConfigModel.setProperty("/isForm", true);
-            this._uiConfigModel.setProperty("/formTitle", "Approval Form");
+            this.setProperty("/formStatus", "PI");
+            this.setProperty("/isForm", true);
+            this.setProperty("/formTitle", "Approval Form");
             const argument = oEvent.getParameters().arguments;
             this._readInitiation(argument.processId);
         },

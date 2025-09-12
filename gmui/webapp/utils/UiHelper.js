@@ -1,82 +1,75 @@
 sap.ui.define([
-    "com/exyte/gmui/utils/ODataHelper",
-    "sap/ui/model/json/JSONModel"
-], function (ODataHelper, JSONModel) {
+    "com/exyte/gmui/utils/ApiHelper",
+    "sap/m/MessageToast",
+    "sap/m/MessageBox"
+], function (ApiHelper,MessageToast,MessageBox) {
     "use strict";
 
-    return {
-        _setEmpData: async function (oUIModel, name) {
-            try {
-                let sUri = "/node-api/getemplist";
-                if (name !== undefined) {
-                    sUri += `?name=${name}`;
-                }
-
-                const res = await fetch(sUri);
-                if (!res.ok) {
-                    throw new Error(`HTTP error! Status: ${res.status}`);
-                }
-
-                const data = await res.json();
-                oUIModel.setProperty("/user", data);
-            } catch (err) {
-                console.error("Error fetching employees:", err);
-            }
-        },
-        _setManagerData: async function (oUIModel, name) {
-            try {
-                let sUri = "/node-api/gethostmanager";
-                if (name) {
-                    sUri += `?manager=${name}`;
-                }
-
-                const res = await fetch(sUri);
-                if (!res.ok) {
-                    throw new Error(`HTTP error! Status: ${res.status}`);
-                }
-
-                const data = await res.json();
-
-                oUIModel.setProperty("/hostManager", data);
-            } catch (err) {
-                console.error("Error fetching employees:", err);
-            }
-        },
-        _getPosition: function (oStartDate, sLegatEntity, oController) {
-            if (sLegatEntity) {
-                const sUri = `/node-api/initiate/getposition?entity=${sLegatEntity}&startDate=${oStartDate}`;
-                let oModel = oController.getView().getModel("Position");
-                if (!oModel) {
-                    oModel = new JSONModel();
-                    oController.getView().setModel(oModel, "Position");
-                }
-                oModel.loadData(sUri);
-            }
-
-        },
-        _getProjectData: function(oStartDate,oController) {
-            const sUri = `/node-api/initiate/getproject?startDate=${oStartDate}`;
-                let oModel = oController.getView().getModel("ProjectData");
-                if (!oModel) {
-                    oModel = new JSONModel();
-                    oController.getView().setModel(oModel, "ProjectData");
-                }
-                oModel.loadData(sUri);
-        },
-        _setLoggedUserDetails: function (oController, currentUserData) {
-            const sInitails = currentUserData.firstName.charAt(0).toUpperCase() + currentUserData.lastName.charAt(0).toUpperCase();
-            const LoggedUserName = currentUserData.firstName + " " + currentUserData.lastName;
-            oController.setGlobalProperty("UIModel", "initialName", sInitails);
-            oController.setGlobalProperty("UIModel", "loggedUserName", LoggedUserName);
-            oController.setGlobalProperty("UIModel", "userId", currentUserData.name);
-            oController.setGlobalProperty("UIModel", "onBehalf", currentUserData.onBehalf);
-        },
-        _setPickListUI: function (oController) {
-            const oModel = new JSONModel();
-            oModel.loadData("/node-api/getpicklist?name=GA_Type");
-            oController.getView().setModel(oModel, "processType");
+    async function _fetchAndSet(oModel, sViewName, sPath, sUri) {
+        try {
+            const data = await ApiHelper.getData(sUri);
+            oModel.setProperty(`/${sViewName}/${sPath}`, data);
+        } catch (err) {
+            console.error(`Error fetching ${sPath}:`, err);
         }
-
     }
 
+    return {
+        async setEmpData(oModel, sViewName, name) {
+            let sUri = "/node-api/getemplist";
+            if (name) {
+                sUri += `?name=${name}`;
+            }
+            await _fetchAndSet(oModel, sViewName, "Employee", sUri);
+        },
+
+        async setManagerData(oModel, sViewName, name) {
+            let sUri = "/node-api/gethostmanager";
+            if (name) {
+                sUri += `?manager=${name}`;
+            }
+            await _fetchAndSet(oModel, sViewName, "HostManager", sUri);
+        },
+
+        async getPosition(oModel, sViewName, oStartDate, sLegatEntity) {
+            if (!sLegatEntity) return;
+            const sUri = `/node-api/initiate/getposition?entity=${sLegatEntity}&startDate=${oStartDate}`;
+            await _fetchAndSet(oModel, sViewName, "Position", sUri);
+        },
+
+        async getProjectData(oModel, sViewName, oStartDate) {
+            const sUri = `/node-api/initiate/getproject?startDate=${oStartDate}`;
+            await _fetchAndSet(oModel, sViewName, "ProjectData", sUri);
+        },
+
+        async setLoggedUserDetails(oModel) {
+            try {
+                const data = await ApiHelper.getData("/node-api/currentUser");
+                const initials = `${data.firstName?.[0]?.toUpperCase() || ""}${data.lastName?.[0]?.toUpperCase() || ""}`;
+                const loggedUserName = `${data.firstName || ""} ${data.lastName || ""}`.trim();
+
+                oModel.setProperty("/initialName", initials);
+                oModel.setProperty("/loggedUserName", loggedUserName);
+                oModel.setProperty("/userId", data.name || "");
+                oModel.setProperty("/onBehalf", data.onBehalf || false);
+            } catch (err) {
+                console.error("Error fetching logged user details:", err);
+            }
+        },
+
+        async setPickListUI(oModel, sViewName) {
+            const sUri = "/node-api/getpicklist?name=GA_Type";
+            await _fetchAndSet(oModel, sViewName, "ProcessType", sUri);
+        }, 
+        async postInitiatonForm(sAction, payLoad) {
+            const sUri = sAction === "D" ? "/node-api/initiate/draftInitiation" : "/node-api/initiate/submitInitiation"
+            const data = await ApiHelper.postData(sUri,payLoad);
+            if(sAction === "D") {
+                 MessageToast.show("Application saved as draft successfully");
+            }
+            else {
+                 MessageBox.success("You have successfully submitted initiation request.")
+            }
+        }
+    };
 });

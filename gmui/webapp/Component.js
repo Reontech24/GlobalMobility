@@ -27,7 +27,7 @@ sap.ui.define([
 
                 if (oTargetConfig && oTargetConfig.options && oTargetConfig.options.requiredRoles) {
                     var aRequiredRoles = oTargetConfig.options.requiredRoles;
-                    var aUserRoles = this.getModel("UIModel").getProperty("/roles") || [];
+                    var aUserRoles = this.getModel().getProperty("/roles") || [];
 
                     var bAuthorized = aRequiredRoles.some(role => aUserRoles.includes(role));
 

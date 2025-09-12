@@ -2,36 +2,35 @@ sap.ui.define([
     "com/exyte/gmui/controller/BaseController",
     "com/exyte/gmui/utils/UiHelper",
     "com/exyte/gmui/utils/Formatter",
-    "sap/ui/model/json/JSONModel",
-    "sap/ui/core/BusyIndicator"
-], (BaseController, UiHelper, formatter, JSONModel, BusyIndicator) => {
+    "sap/ui/core/BusyIndicator",
+    "sap/m/MessageBox"
+], (BaseController, UiHelper, formatter, BusyIndicator,MessageBox) => {
     "use strict";
 
     return BaseController.extend("com.exyte.gmui.controller.Initiation", {
         formatter: formatter,
-        onInit: async function () {            
-            this._uiConfigModel = this.getOwnerComponent().getModel("UIModel");
+        onInit: async function () {
             this.getRouter().getRoute("Initiation").attachPatternMatched(this._onRouteMatched, this);
         },
         _onRouteMatched: async function () {
-            this._uiConfigModel.setProperty("/formStatus", "ID");
-            this._uiConfigModel.setProperty("/isForm", true);
-            this._uiConfigModel.setProperty("/formTitle", "Inititation Form");
-            const currentUserResponse = await fetch("/node-api/currentUser", { credentials: "include" });
-            const currentUserData = await currentUserResponse.json();
-            UiHelper._setLoggedUserDetails(this, currentUserData);
-            UiHelper._setEmpData(this._uiConfigModel);
-            await UiHelper._setManagerData(this._uiConfigModel);
-            UiHelper._setPickListUI(this);
+            BusyIndicator.show(0);
+            // Handle the header of the form
+            this.setProperty("/formStatus", "ID");
+            this.setProperty("/isForm", true);
+            this.setProperty("/formTitle", "Inititation Form");
+            await UiHelper.setLoggedUserDetails(this);
+            await UiHelper.setEmpData(this, "Initiation");
+            UiHelper.setManagerData(this, "Initiation");
+            UiHelper.setPickListUI(this,"Initiation");
             this._createFormModel();
+            BusyIndicator.hide();
 
         },
         _createFormModel: function () {
-            
             const object = {
                 cust_StartMinDate: new Date(),
                 cust_ProcessType: "",
-                cust_HostManager: this.getGlobalProperty("UIModel", "userId",),
+                cust_HostManager: this.getProperty("userId",),
                 cust_EmpId: "",
                 cust_HomeUserId: "",
                 cust_StartDate: "",
@@ -39,9 +38,9 @@ sap.ui.define([
                 cust_HostPosition: "",
                 cust_Project: null,
                 cust_Status: "",
-                cust_HostLegalEntity:""
+                cust_HostLegalEntity: ""
             };
-            this.setGlobalProperty("UIModel", "initiateForm", object);
+            this.setProperty("/initiateForm", object);
         },
 
         /**
@@ -51,17 +50,9 @@ sap.ui.define([
         onSearchEmpCombobox: async function (oEvent) {
             try {
                 const sValue = oEvent.getParameter("value");
-                if (sValue.includes("-")) {
-                    return;
-                }
-                UiHelper._setEmpData(this._uiConfigModel, sValue);
+                UiHelper.setEmpData(this, "Initiation", sValue);
             } finally {
-                const oComboBox = oEvent.getSource();
-                // Get results length from model
-                const aResults = this._uiConfigModel.getProperty("/User") || [];
-                if (aResults.length > 0 && !oComboBox.isOpen()) {
-                    oComboBox.open();
-                }
+
             }
         },
 
@@ -70,37 +61,23 @@ sap.ui.define([
          * Returns Filter Data in Combobox 
          */
         onSearchHostManagerCombobox: async function (oEvent) {
-            try {
-                const sValue = oEvent.getParameter("value");
-                if (sValue.includes("-")) {
-                    return;
-                }
-                UiHelper._setManagerData(this._uiConfigModel, sValue);
-            } finally {
-                const oComboBox = oEvent.getSource();
-                // Get results length from model
-                const aResults = this._uiConfigModel.getProperty("/User") || [];
-                if (aResults.length > 0 && !oComboBox.isOpen()) {
-                    oComboBox.open();
-                }
-            }
+            const sValue = oEvent.getParameter("value");
+            UiHelper.setManagerData(this, "Initiation", sValue);
         },
         /**
          * Auto fill Person Id, Job Title, Department,Legal Entity, Country, Hire Date
          */
         onSelectEmployee: function (oEvent) {
-            const oSelectedObject = oEvent.getParameter("selectedItem").getBindingContext("UIModel").getObject();
-            this.setGlobalProperty("UIModel", "initiateForm/cust_HomeCountry", oSelectedObject.userNav.country);
-            this.setGlobalProperty("UIModel", "initiateForm/cust_EmpId", oSelectedObject.employmentNav.personIdExternal);
-            this.setGlobalProperty("UIModel", "initiateForm/cust_HireDate", oSelectedObject.employmentNav.startDate);
-            this.setGlobalProperty("UIModel", "initiateForm/cust_Title", oSelectedObject.jobTitle);
-            this.setGlobalProperty("UIModel", "initiateForm/cust_Department", oSelectedObject.departmentNav.name);
-            this.setGlobalProperty("UIModel", "initiateForm/cust_LegalEntity", oSelectedObject.company);
-             this.setGlobalProperty("UIModel", "initiateForm/cust_EmpName", oSelectedObject.userNav.displayName);
-            if(oSelectedObject.custom04) {
-                const sEnitiyId = oSelectedObject["custom04"].match(/\(([^)]+)\)/g).map(m => m.slice(1, -1));
-                this.setGlobalProperty("UIModel", "initiateForm/cust_LegalEntityId", sEnitiyId[0]);
-            }
+            const oSelectedObject = oEvent.getParameter("selectedItem").getBindingContext().getObject();
+            this.setProperty("/initiateForm/cust_HomeCountry", oSelectedObject.userNav.country);
+            this.setProperty("/initiateForm/cust_HomeCountryCode", oSelectedObject.countryOfCompany);
+            this.setProperty("/initiateForm/cust_EmpId", oSelectedObject.employmentNav.personIdExternal);
+            this.setProperty("/initiateForm/cust_HireDate", oSelectedObject.employmentNav.startDate);
+            this.setProperty("/initiateForm/cust_Title", oSelectedObject.jobTitle);
+            this.setProperty("/initiateForm/cust_Department", oSelectedObject.departmentNav.name);
+            this.setProperty("/initiateForm/cust_LegalEntity", oSelectedObject.company);
+            this.setProperty("/initiateForm/cust_LegalEntityName", oSelectedObject.companyNav?.name);
+            this.setProperty("/initiateForm/cust_EmpName", oSelectedObject.userNav.displayName);            
         },
 
         /** 
@@ -113,35 +90,63 @@ sap.ui.define([
                 BusyIndicator.show(0);
                 //Set Minimum Date of End Date
                 let oMinEndDate = new Date(selectedDate);
-                oMinEndDate.setDate(oMinEndDate.getDate() + 1); 
-                this.setGlobalProperty("UIModel", "initiateForm/cust_EndMindate", oMinEndDate);
+                oMinEndDate.setDate(oMinEndDate.getDate() + 1);
+                this.setProperty("/initiateForm/cust_EndMindate", oMinEndDate);
                 //Clear the End Date and position
-                this.setGlobalProperty("UIModel", "initiateForm/cust_EndDate", null);
-                this.setGlobalProperty("UIModel", "initiateForm/cust_HostPosition", "");
+                this.setProperty("/initiateForm/cust_EndDate", null);
+                this.setProperty("/initiateForm/cust_HostPosition", "");
                 // Get the Posotion based on Start Date Selected
-                await UiHelper._getPosition(selectedDate, this.getGlobalProperty("UIModel", "initiateForm/cust_HostLegalEntity"), this);
+                await UiHelper.getPosition(this,"Initiation" ,selectedDate, this.getProperty("/initiateForm/cust_HostLegalEntity"));
                 // Process Type is Project get the Project data
-                if(this._uiConfigModel.getProperty("/initiateForm/cust_ProcessType") === "P") {
-                    await UiHelper._getProjectData(selectedDate, this);
+                if (this.getProperty("/initiateForm/cust_ProcessType") === "P") {
+                    await UiHelper.getProjectData(this,"Initiation",selectedDate);
                 }
                 BusyIndicator.hide();
             }
         },
         onSelectHostManager: function (oEvent) {
-            if (oEvent.getParameter("selectedItem") === null) {
-                UiHelper._setManagerData(this._uiConfigModel, "");
-                return;
+            // if (oEvent.getParameter("selectedItem") === null) {
+            //     UiHelper._setManagerData(this._uiConfigModel, "");
+            //     return;
+            // }
+            const oSelectedObject = oEvent.getParameter("selectedItem").getBindingContext().getObject();
+            this.setProperty("/initiateForm/cust_HostPosition", "");
+            if (oSelectedObject.company) {
+                this.setProperty("/initiateForm/cust_HostLegalEntity", oSelectedObject.company);
+                this.setProperty("/initiateForm/cust_HostLegalEntityName", oSelectedObject.companyNav?.name);
             }
-            const oSelectedObject = oEvent.getParameter("selectedItem").getBindingContext("UIModel").getObject();
-            this.setGlobalProperty("UIModel", "initiateForm/cust_HostPosition", "");
-            if(oSelectedObject.company) {
-                this.setGlobalProperty("UIModel", "initiateForm/cust_HostLegalEntity", oSelectedObject.company);
-            }
-            // this.setGlobalProperty("UIModel", "initiateForm/cust_HostLegalEntity", oSelectedObject.custom04);
+            // this.setProperty("initiateForm/cust_HostLegalEntity", oSelectedObject.custom04);
         },
         onSelectPosition: function (oEvent) {
-            const oSelectedObject = oEvent.getParameter("selectedItem").getBindingContext("Position").getObject();
-            this.setGlobalProperty("UIModel", "initiateForm/cust_HostCountry", oSelectedObject.companyNav.country);
+            const oSelectedObject = oEvent.getParameter("selectedItem").getBindingContext().getObject();
+            this.setProperty("/initiateForm/cust_HostCountry", oSelectedObject.companyNav.country);
+        },
+        onPressDraft: function () {
+            const oFormData = this.getProperty("/initiateForm");
+           UiHelper.postInitiatonForm("D",oFormData);
+        },
+        onPressSubmit: function () {
+            MessageBox.confirm(
+                "Are you sure you want to submit? \n If yes, initiation will be sent to the home manager for approval",
+                {
+                    icon: MessageBox.Icon.CONFIRM,
+                    title: "Confirmation",
+                    actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                    emphasizedAction: MessageBox.Action.YES,
+                    initialFocus: MessageBox.Action.CANCEL,
+                    onClose: async function (sAction) {
+                        if (sAction === "YES") {
+                            BusyIndicator.show(0);
+                            const oFormData = this.getProperty("/initiateForm");
+                            oFormData.appUrl = window.location.origin + window.location.pathname
+                             await UiHelper.postInitiatonForm("S",oFormData);
+                              BusyIndicator.hide(0);
+                        }
+                    }.bind(this),
+                    dependentOn: this.getView()
+                }
+            );
+
         }
 
 

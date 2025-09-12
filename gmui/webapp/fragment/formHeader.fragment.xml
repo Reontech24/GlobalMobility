@@ -1,18 +1,18 @@
 <core:FragmentDefinition xmlns="sap.m"
     xmlns:core="sap.ui.core">
-    <VBox >
+    <VBox class="sapUiSmallMarginTop sapUiSmallMarginBegin sapUiSmallMarginEnd" width="98%">
         <OverflowToolbar height="5rem">
             <Button icon="sap-icon://arrow-left" type="Transparent" press="onNavBack" class="customBackButton"/>
             <VBox class="sapUiTinyMargin formHeaderTitleBox">
-                <Title text="{UIModel>/formTitle}" class="formTitle" />
+                <Title text="{/formTitle}" class="formTitle" />
                 <Label text="Updated by: Partha Updated on: 25/03/2025" />
             </VBox>
             <ToolbarSpacer />
-            <Button text="Cancel Initiation" icon="sap-icon://decline" class="exyteCustomButton cancelInitiationBtn" press="onCancel" visible="{= ${UIModel>/formStatus} === 'ID'}"></Button>
-            <Button text="Save as Draft" press="onPressDraft" icon="sap-icon://save" class="exyteCustomButton saveDraftBtn" visible="{= ${UIModel>/formStatus} === 'ID'}"></Button>
-            <Button text="Submit" icon="sap-icon://accept" press="onPressSubmit" class="exyteCustomButton submitBtn" visible="{= ${UIModel>/formStatus} === 'ID'}"></Button>
-            <Button text="Approve" icon="sap-icon://decline" class="exyteCustomButton cancelInitiationBtn" press="onCancel" visible="{= ${UIModel>/formStatus} === 'PI'}"></Button>
-            <Button text="Reject" icon="sap-icon://accept" press="onPressSubmit" class="exyteCustomButton submitBtn" visible="{= ${UIModel>/formStatus} === 'PI'}"></Button>
+            <Button text="Cancel Initiation" icon="sap-icon://decline" class="exyteCustomButton cancelInitiationBtn" press="onCancel" visible="{= ${/formStatus} === 'ID'}"></Button>
+            <Button text="Save as Draft" press="onPressDraft" icon="sap-icon://save" class="exyteCustomButton saveDraftBtn" visible="{= ${/formStatus} === 'ID'}"></Button>
+            <Button text="Submit" icon="sap-icon://accept" press="onPressSubmit" class="exyteCustomButton submitBtn" visible="{= ${/formStatus} === 'ID'}"></Button>
+            <Button text="Approve" icon="sap-icon://decline" class="exyteCustomButton cancelInitiationBtn" press="onCancel" visible="{= ${/formStatus} === 'PI'}"></Button>
+            <Button text="Reject" icon="sap-icon://accept" press="onPressSubmit" class="exyteCustomButton submitBtn" visible="{= ${/formStatus} === 'PI'}"></Button>
         </OverflowToolbar>
     </VBox>
 </core:FragmentDefinition>

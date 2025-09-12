@@ -18,7 +18,7 @@ async function draftInitiation(req) {
       cust_Initiator: req.user.id,
       cust_HostManager: payload.cust_HostManager,
       cust_EmpId: payload.cust_EmpId,
-      cust_HomeCountry: payload.cust_HomeCountry,
+      cust_HomeCountry: payload.cust_HomeCountryCode,
       cust_HostCountry: payload.cust_HostCountry,
       cust_HomeUserId: payload.cust_HomeUserId,
       cust_StartDate: genericService.toSAPDate(new Date(payload.cust_StartDate)),
@@ -34,7 +34,7 @@ async function submitInitiation(req) {
   const homeManager = await getHomeManager(req, payload.cust_HomeUserId);
   const homeHRBP = await getHomeHRBP(req, payload.cust_HomeUserId);
   req.body.cust_HomeMgrId = homeManager?.[0]?.managerId;
-  const gaGroups = await getGAGroups(req, payload.cust_LegalEntityId, payload.cust_HostLegalEntityId)
+  const gaGroups = await getGAGroups(req, payload.cust_LegalEntity, payload.cust_HostLegalEntity)
 
   return callDestination(req, DEST.SF_API, {
     url: "/odata/v2/upsert",
@@ -47,7 +47,7 @@ async function submitInitiation(req) {
       cust_Initiator: req.user.id,
       cust_HostManager: payload.cust_HostManager,
       cust_EmpId: payload.cust_EmpId,
-      cust_HomeCountry: payload.cust_HomeCountry,
+      cust_HomeCountry: payload.cust_HomeCountryCode,
       cust_HostCountry: payload.cust_HostCountry,
       cust_HomeUserId: payload.cust_HomeUserId,
       cust_StartDate: genericService.toSAPDate(new Date(payload.cust_StartDate)),
@@ -131,14 +131,13 @@ async function getGAGroups(req, cust_LegalEntity, cust_HostLegalEntity) {
     params: params
   });
 }
-async function sendNotification(req, res) {
+async function sendNotification(req, externalCode) {
   const mgrMail = await genericService.getMailId(req, req.body.cust_HomeMgrId);
   // mgrMail[0].email
   const mailBody = await genericService.getMailBody(req, "GENERAL");
   const name = req.body.cust_EmpName;
   const status = "Initiated";
-  const externalCode = res.d[0].key.match(/externalCode=(\d+)/);
-  const link = req.body.appUrl + "?#approval/" + externalCode[1];
+  const link = req.body.appUrl + "?#approval/" + externalCode;
   const notificationSubject = mailBody[0].cust_NotificationSubject_en_US
     .replace("<name>", name)
     .replace("<status>", status);

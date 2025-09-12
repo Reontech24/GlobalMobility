@@ -52,7 +52,7 @@
           "bundleName": "com.exyte.gmui.i18n.i18n"
         }
       },
-      "UIModel": {
+      "": {
         "uri": "model/UIConfig.json",
         "type": "sap.ui.model.json.JSONModel"
       }

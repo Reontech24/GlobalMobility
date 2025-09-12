@@ -43,17 +43,8 @@
             "position": 4
         }
     ],
-    "selectEmpInititaionFilter": [
-        "userId",
-        "country",
-        "custom04",
-        "custom06",
-        "custom10",
-        "department",
-        "displayName",
-        "hireDate",
-        "title",
-        "personKeyNav/personIdExternal"
-    ],
-    "isForm":false
+    "isForm":false,
+    "Initiation":{
+        "Employee":[]
+    }
 }

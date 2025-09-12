@@ -1,3 +1,12 @@
+.sapMPage .sapMPageHeader:not(.sapMIBar-CTX)::after, .sapMPageWithSubHeader .sapMPageSubHeader:not(.sapMIBar-CTX)::after {
+     
+    box-shadow: none !important;
+    
+}
+.formClass .sapMPageEnableScrolling {
+  top: 4rem !important
+}
+
 /* To remove the border from process flow */
 thead.sapSuiteUiCommonsPFHeaderFocused {
   outline: none !important;

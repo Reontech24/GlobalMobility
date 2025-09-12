@@ -4,36 +4,25 @@ sap.ui.define([
 	"use strict";
 
 	return Controller.extend("com.exyte.gmui.controller.BaseController", {
-		onInit: function() {
-			 this._oDataModel = this.getOwnerComponent().getModel();
-            this._uiConfigModel = this.getOwnerComponent().getModel("UIModel");
+		onInit: function() {			 
 		},
 		getRouter: function () {
 			return sap.ui.core.UIComponent.getRouterFor(this);
 		},
-		getModel: function (sName) {
-			return this.getView().getModel(sName);
-		},
+		getModel: function () {
+			return this.getOwnerComponent().getModel();
+		},		
 		getId: function (sName) {
 			return this.getView().byId(sName);
-		},
-		setModel: function (oModel, sName) {
-			return this.getView().setModel(oModel, sName);
-		},
+		},			
 		getResourceBundle: function () {
 			return this.getOwnerComponent().getModel("i18n").getResourceBundle();
+		},		
+		getProperty:function(sProperty) {
+			return this.getOwnerComponent().getModel().getProperty(sProperty);
 		},
-		getViewProperty:function(oModel,sProperty) {
-			return this.getView().getModel(oModel).getProperty("/"+sProperty);
-		},
-		setViewProperty:function(oModel,sProperty,sValue) {
-			return this.getView().getModel(oModel).setProperty("/"+sProperty,sValue);
-		},
-		getGlobalProperty:function(oModel,sProperty) {
-			return this.getView().getModel(oModel).getProperty("/"+sProperty);
-		},
-		setGlobalProperty:function(oModel,sProperty,sValue) {
-			return this.getView().getModel(oModel).setProperty("/"+sProperty,sValue);
+		setProperty:function(sProperty,sValue) {
+			return this.getOwnerComponent().getModel().setProperty(sProperty,sValue);
 		}
     });
 });
