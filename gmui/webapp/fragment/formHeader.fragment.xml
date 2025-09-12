@@ -11,8 +11,8 @@
             <Button text="Cancel Initiation" icon="sap-icon://decline" class="exyteCustomButton cancelInitiationBtn" press="onCancel" visible="{= ${/formStatus} === 'ID'}"></Button>
             <Button text="Save as Draft" press="onPressDraft" icon="sap-icon://save" class="exyteCustomButton saveDraftBtn" visible="{= ${/formStatus} === 'ID'}"></Button>
             <Button text="Submit" icon="sap-icon://accept" press="onPressSubmit" class="exyteCustomButton submitBtn" visible="{= ${/formStatus} === 'ID'}"></Button>
-            <Button text="Approve" icon="sap-icon://decline" class="exyteCustomButton cancelInitiationBtn" press="onCancel" visible="{= ${/formStatus} === 'PI'}"></Button>
-            <Button text="Reject" icon="sap-icon://accept" press="onPressSubmit" class="exyteCustomButton submitBtn" visible="{= ${/formStatus} === 'PI'}"></Button>
+            <Button text="Approve" icon="sap-icon://decline" class="exyteCustomButton cancelInitiationBtn" press="onCancel" visible="{= ${/Approval/cust_IsApprover} === true}"></Button>
+            <Button text="Reject" icon="sap-icon://accept" press="onPressSubmit" class="exyteCustomButton submitBtn" visible="{= ${/Approval/cust_IsApprover} === true}"></Button>
         </OverflowToolbar>
     </VBox>
 </core:FragmentDefinition>

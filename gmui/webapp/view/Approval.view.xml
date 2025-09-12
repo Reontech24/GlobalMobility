@@ -5,7 +5,10 @@
     xmlns:f="sap.f"
     xmlns:card="sap.f.cards"
     xmlns:cust="com.exyte.gmui.controls">
-    <Page showHeader="false">
+    <Page class="formClass">
+    <customHeader>
+            <core:Fragment fragmentName="com.exyte.gmui.fragment.formHeader" type="XML"/>
+        </customHeader>
         <content>
             <VBox class="sapUiSmallMarginBegin sapUiTinyMarginTop sapUiSmallMarginEnd" width="98%">
 
@@ -16,27 +19,27 @@
                         <f:content>
                             <HBox class="sapUiSmallMargin">
                                 <VBox width="6%">
-                                    <Avatar initials="PC" src="{/Woman01}" displaySize="M" showBorder="true" press="onPress"/>
+                                    <Avatar initials="{/Approval/cust_initials}" displaySize="M" showBorder="true" />
                                 </VBox>
-                                <VBox width="20%"  class="VBRightBorder" >
-                                   <Title text=" Alice Jhonson" class="sapUiTinyMarginTop inititaionFormTitle"/>
-                                   <Text text="Software ENgineer, 101212" class="initiationFormLabel"/>
+                                <VBox width="25%"  class="VBRightBorder" >
+                                   <Title text="{/Approval/cust_UserName}" class="sapUiTinyMarginTop inititaionFormTitle"/>
+                                   <Text text="{/Approval/cust_UserPostion}" class="initiationFormLabel"/>
                                 </VBox>
                                  <VBox width="20%"  class="VBRightBorder sapUiMediumMarginBegin" >
                                    <Label text="Department" class="sapUiTinyMarginTop initiationFormLabel"/>
-                                   <Text text="Software ENgineer, 101212" class="initiationFormLabel"/>
+                                   <Text text="{/Approval/cust_Department}" class="initiationFormLabel"/>
                                 </VBox>
                                  <VBox width="20%"  class="VBRightBorder sapUiMediumMarginBegin" >
                                    <Label text="Legal Entity" class="sapUiTinyMarginTop initiationFormLabel"/>
-                                   <Text text="Software ENgineer, 101212" class="initiationFormLabel"/>
+                                   <Text text="{/Approval/cust_LegalEntity}" class="initiationFormLabel"/>
                                 </VBox>
-                                 <VBox width="15%" class="VBRightBorder sapUiMediumMarginBegin" >
+                                 <VBox width="10%" class="VBRightBorder sapUiMediumMarginBegin" >
                                    <Label text="Country" class="sapUiTinyMarginTop initiationFormLabel"/>
-                                   <Text text="Germany" class="initiationFormLabel"/>
+                                   <Text text="{/Approval/cust_Country}" class="initiationFormLabel"/>
                                 </VBox>
                                  <VBox width="10%"  class="sapUiMediumMarginBegin" >
                                    <Label text="Hire Date" class="sapUiTinyMarginTop initiationFormLabel"/>
-                                   <Text text="1994-10-12" class="initiationFormLabel"/>
+                                   <Text text="{path:'/Approval/cust_HireDate',formatter:'.formatter.formatDate'}" class="initiationFormLabel"/>
                                 </VBox>
                             </HBox>
 
@@ -53,12 +56,12 @@
 
                                 <HBox class="sapUiSmallMargin" width="96%">
                                     <VBox width="33rem">
-                                        <Label text="Process Type" required="true" class="initiationFormLabel"/>
-                                        <Text text="Managerial Assignment" class="initiationFormLabel"/>
+                                        <Label text="Process Type"  class="initiationFormLabel"/>
+                                        <Text text="{/Approval/cust_ProcessTypeName}" class="initiationFormLabel"/>
                                     </VBox>
                                     <VBox width="33rem">
                                         <Label text="Host Manager" class="initiationFormLabel"/>
-                                        <Text text="Thomas Spintzangel" class="initiationFormLabel"/>
+                                        <Text text="{/Approval/cust_HostManager}" class="initiationFormLabel"/>
                                     </VBox>
 
                                 </HBox>
@@ -78,26 +81,26 @@
 
                                 <HBox class="sapUiSmallMargin" width="96%">
                                     <VBox width="33rem">
-                                        <Label text="Start Date" required="true" class="initiationFormLabel"/>
-                                        <Text text="{path:'FormData>/cust_StartDate','type':'sap.ui.model.type.Date','formatOptions': {'pattern': 'yyyy-MM-dd',UTC:true}}" class="initiationFormLabel" />
+                                        <Label text="Start Date"  class="initiationFormLabel"/>
+                                        <Text text="{path: '/Approval/cust_StartDate',formatter:'.formatter.formatDate'}" class="initiationFormLabel" />
                                     </VBox>
                                     <VBox width="33rem">
-                                        <Label text="End Date" required="true" class="initiationFormLabel"/>
-                                        <Text text="{path:'FormData>/cust_EndDate','type':'sap.ui.model.type.Date','formatOptions': {'pattern': 'yyyy-MM-dd',UTC:true}}" class="initiationFormLabel" />
+                                        <Label text="End Date"  class="initiationFormLabel"/>
+                                        <Text text="{path: '/Approval/cust_EndDate',formatter:'.formatter.formatDate'}" class="initiationFormLabel" />
                                     </VBox>
                                     <VBox width="33rem">
-                                        <Label text="Host Position" required="true" class="initiationFormLabel"/>
-                                        <Text text="Thomas Spintzangel" class="initiationFormLabel"/>
+                                        <Label text="Host Position"  class="initiationFormLabel"/>
+                                        <Text text="{/Approval/cust_HostPosition}" class="initiationFormLabel"/>
                                     </VBox>
                                 </HBox>
-                                <HBox class="sapUiSmallMargin" width="96%" visible="{= ${FormData>/cust_ProcessType} === 'P'}">
+                                <HBox class="sapUiSmallMargin" width="96%" visible="{= ${/Approval/cust_ProcessType} === 'P'}">
                                     <VBox width="33rem">
-                                        <Label text="Project ID" required="true" class="initiationFormLabel"/>
-                                        <Text text="Thomas Spintzangel" class="initiationFormLabel"/>
+                                        <Label text="Project ID"  class="initiationFormLabel"/>
+                                        <Text text="{/Approval/cust_ProjectId}" class="initiationFormLabel"/>
                                     </VBox>
                                     <VBox width="33rem">
                                         <Label text="Project Name" class="initiationFormLabel"/>
-                                        <Text text="Thomas Spintzangel" class="initiationFormLabel"/>
+                                        <Text text="{/Approval/cust_ProjectName}" class="initiationFormLabel"/>
                                     </VBox>
 
                                 </HBox>

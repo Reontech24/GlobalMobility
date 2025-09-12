@@ -1,9 +1,10 @@
 const { callDestination } = require("./httpClient");
-const { EmployeeName } = require("../queries/initiationQuery");
+const { processApproveQuery } = require("../queries/initiationQuery");
 const DEST = require("../config/destination");
 const genericService = require("./genericService");
 const { sendMail } = require("../config/mail");
 
+// Function to save the draft data from Initiation View
 async function draftInitiation(req) {
   const payload = req.body;
 
@@ -29,6 +30,8 @@ async function draftInitiation(req) {
     }
   });
 }
+
+// Function to submit the data from Initiation view
 async function submitInitiation(req) {
   const payload = req.body;
   const homeManager = await getHomeManager(req, payload.cust_HomeUserId);
@@ -60,6 +63,7 @@ async function submitInitiation(req) {
     }
   });
 }
+// Function to fetch position based on legal entity and start date
 async function fetchPosition(req) {
   const entity = req.query.entity;
   const startDate = req.query.startDate;
@@ -79,6 +83,7 @@ async function fetchPosition(req) {
     params: params
   });
 }
+//Function to fetch the Project data based on start date
 async function fetchProject(req) {
   const startDate = req.query.startDate;
   let params = {
@@ -95,6 +100,7 @@ async function fetchProject(req) {
   });
 }
 
+// Function to fetch list of home manager 
 async function getHomeManager(req, homeUserId) {
   let params = {
     $select: "company,managerId"
@@ -107,6 +113,7 @@ async function getHomeManager(req, homeUserId) {
   });
 
 }
+// Function to fetch the home HRBP of user while submiting the form
 async function getHomeHRBP(req, homeUserId) {
   let params = {
     $select: "relUserId"
@@ -118,6 +125,8 @@ async function getHomeHRBP(req, homeUserId) {
     params: params
   });
 }
+
+// Function to fetch the home GA Groups of user while submiting the form
 async function getGAGroups(req, cust_LegalEntity, cust_HostLegalEntity) {
   let params = {
     $select: "cust_GroupID,cust_GroupName"
@@ -131,6 +140,8 @@ async function getGAGroups(req, cust_LegalEntity, cust_HostLegalEntity) {
     params: params
   });
 }
+
+//  Function to send notification to manager of user after submission of Initiation
 async function sendNotification(req, externalCode) {
   const mgrMail = await genericService.getMailId(req, req.body.cust_HomeMgrId);
   // mgrMail[0].email
@@ -159,4 +170,14 @@ async function sendNotification(req, externalCode) {
   }
 }
 
-module.exports = { draftInitiation, submitInitiation, fetchPosition, fetchProject, sendNotification };
+async function fetchProcessData(req) {
+  const processId = req.query.processId;
+  let params = processApproveQuery;
+  params.$filter = encodeURIComponent(`externalCode eq '${processId}'`);
+  return callDestination(req, DEST.SF_API_ADMIN, {
+    url: "/odata/v2/cust_GA_Processes",
+    params: params
+  });
+}
+
+module.exports = { draftInitiation, submitInitiation, fetchPosition, fetchProject, sendNotification,fetchProcessData };

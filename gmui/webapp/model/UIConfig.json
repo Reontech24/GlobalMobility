@@ -46,5 +46,8 @@
     "isForm":false,
     "Initiation":{
         "Employee":[]
+    },
+    "Approval": {
+        "cust_IsApprover":false
     }
 }
